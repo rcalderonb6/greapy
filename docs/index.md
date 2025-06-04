@@ -1,4 +1,4 @@
-# Welcome to `GREApy`
+# Welcome to the `GREApy` documentation
 
 <img src="assets/logo.png" width="400" height="400">
 

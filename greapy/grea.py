@@ -1,0 +1,581 @@
+"""
+General Relativistic Entropic Acceleration (GREA) Theory Implementation.
+
+This module provides a comprehensive implementation of the GREA cosmological model,
+which describes cosmic acceleration as a consequence of entropic forces. The GREA
+theory offers an alternative explanation to dark energy models for the accelerated
+expansion of the universe.
+
+The module contains functions and classes to calculate key cosmological parameters,
+distances, and observables within the GREA framework, including Hubble parameter,
+comoving distances, sound horizon, and equations of state.
+"""
+import numpy as np
+from dataclasses import dataclass
+from scipy.integrate import odeint,quad
+from scipy.interpolate import UnivariateSpline
+
+from greapy import approximations as approx
+from greapy.math import coth, csch
+
+# Physical constants
+C_KMS: float = 299792.458  # Speed of light in km/s
+
+# Unit conversion factors
+H_units_conv_factor: dict[str, float] = {
+    "1/Mpc": 1/C_KMS,  # Convert from km/s/Mpc to 1/Mpc
+    "km/s/Mpc": 1      # No conversion needed
+}
+
+@dataclass
+class GREA():
+    """
+    General Relativistic Entropic Acceleration (GREA) model implementation.
+    
+    This class encapsulates the GREA cosmological model, providing methods to
+    compute various cosmological quantities and observables within this theoretical
+    framework. GREA proposes that cosmic acceleration arises from entropic forces
+    rather than dark energy.
+    
+    Parameters
+    ----------
+    h : float, default=0.6736
+        Dimensionless Hubble parameter (H0/(100 km/s/Mpc)).
+    Omega_m : float, default=0.315
+        Fractional matter density (Ωₘ) today (z=0).
+    omega_b : float, default=0.002237
+        Physical baryon density parameter (Ωb × h²).
+    keta0 : float, default=3.55
+        GREA model parameter related to the entropic acceleration mechanism.
+    omega_g : float, default=0.0000247739
+        Physical photon density parameter (Ωγ × h²).
+    Neff : float, default=3.044
+        Effective number of neutrino species.
+    a_min : float, default=1e-11
+        Minimum scale factor for integration.
+        
+    Attributes
+    ----------
+    Numerous derived parameters and cosmological quantities accessible as properties,
+    including equation of state parameters, sound horizons, and redshifts at key
+    cosmic epochs.
+    """
+    h: float = 0.6736 # Dimensionless Hubble parameter
+    Omega_m: float = 0.315 # Fractional matter density (Ω_m) today (z=0)    
+    omega_b: float = 0.002237# Physical baryon density (Ω_b * h^2)
+    keta0: float = 3.55
+    omega_g: float = 0.0000247739 # Physical density of photons (Ω_g * h^2)
+    Neff: float = 3.044 # Effective number of neutrino species
+
+    
+    a_min: float = 1e-11 # Minimum scale factor for integration
+    
+    def __post_init__(self):
+        """
+        Initialize additional attributes after dataclass initialization.
+        
+        Creates a logarithmically spaced array of scale factors from a_min to 0.5
+        for numerical integration and interpolation purposes.
+        """
+        self.a = np.logspace(np.log10(self.a_min),0.5,500)
+    
+    def horizon_distance(self,a):
+        """
+        Calculate dimensionless horizon distance at scale factor a.
+        
+        This function returns the dimensionless horizon distance needed to compute
+        the alpha parameter in the GREA model. It's equivalent to tau(a) in this
+        implementation.
+        
+        Parameters
+        ----------
+        a : float or array_like
+            Scale factor(s) at which to evaluate the horizon distance.
+            
+        Returns
+        -------
+        float or array_like
+            Dimensionless horizon distance at the specified scale factor(s).
+        """
+        return self.tau(a)
+    
+    def _system(self,y,a,Omega_m,keta0,aeq):
+        """
+        Define the ODE system for tau evolution.
+        
+        This internal method defines the differential equation system for the
+        evolution of tau with respect to scale factor in the GREA model.
+        
+        Parameters
+        ----------
+        y : float
+            Current value of tau.
+        a : float
+            Scale factor.
+        Omega_m : float
+            Matter density parameter.
+        keta0 : float
+            GREA model parameter.
+        aeq : float
+            Scale factor at matter-radiation equality.
+            
+        Returns
+        -------
+        float
+            Derivative of tau with respect to scale factor.
+        """
+        den = np.sinh(2*keta0)-2*keta0
+        yprime = a**2 * np.sqrt((Omega_m*(1 + aeq/a))/a**3 + (4*np.sinh(2*y))/(3.*a**2)/den)
+        return 1/yprime
+    
+    def tau(self,a):
+        """
+        Calculate tau parameter as a function of scale factor.
+        
+        Solves the differential equation for tau(a) and creates a spline
+        interpolation for efficient evaluation at any scale factor.
+        Tau represents a key dynamical variable in the GREA model.
+        
+        Parameters
+        ----------
+        a : float or array_like
+            Scale factor(s) at which to evaluate tau.
+            
+        Returns
+        -------
+        float or array_like
+            Value of tau at the given scale factor(s).
+            
+        Notes
+        -----
+        This method solves the ODE system defined in _system() and creates
+        a spline interpolation for efficient evaluation at arbitrary scale factors.
+        The initial condition is set at the minimum scale factor.
+        """
+        y0 = [self.a[0]/np.sqrt(self.Omega_g+self.Omega_nu)]
+        theta = (self.Omega_m,self.keta0,self.aeq)
+        self.tau_spline=UnivariateSpline(self.a,odeint(self._system,y0,self.a,args=theta),s=0)
+        return self.tau_spline(a)
+    
+    def Hubble(self,a,units='km/s/Mpc'):
+        """
+        Calculate Hubble parameter at a given scale factor.
+        
+        Computes the Hubble parameter H(a) in the GREA model, including 
+        contributions from matter, radiation, and the entropic acceleration term.
+        
+        Parameters
+        ----------
+        a : float or array_like
+            Scale factor(s) at which to evaluate the Hubble parameter.
+        units : str, default='km/s/Mpc'
+            Units for the output. Options are 'km/s/Mpc' or '1/Mpc'.
+            
+        Returns
+        -------
+        float or array_like
+            Hubble parameter at the specified scale factor(s) in the requested units.
+            
+        Notes
+        -----
+        The Hubble parameter in GREA depends on both matter-radiation content
+        and the entropic acceleration term through tau(a).
+        """
+        den=np.sinh(2*self.keta0)-2*self.keta0
+        E = ((self.Omega_m*(1 + self.aeq/a))/a**3 + (4*np.sinh(2*self.tau(a)))/(3.*a**2)/den)**(0.5)
+        return 100*self.h * E * H_units_conv_factor[units]
+    
+    def H(self,z):
+        """
+        Calculate Hubble parameter as a function of redshift.
+        
+        A convenience method to get the Hubble parameter in terms of redshift z
+        rather than scale factor a.
+        
+        Parameters
+        ----------
+        z : float or array_like
+            Redshift(s) at which to evaluate the Hubble parameter.
+            
+        Returns
+        -------
+        float or array_like
+            Hubble parameter at the specified redshift(s) in km/s/Mpc.
+            
+        Notes
+        -----
+        Converts redshift to scale factor via a = 1/(1+z) and calls Hubble(a).
+        """
+        return self.Hubble(1/(1+z))
+    
+    def angular_diameter_distance(self,z):
+        """
+        Calculate angular diameter distance to redshift z.
+        
+        The angular diameter distance is the ratio of an object's physical 
+        transverse size to its angular size in radians.
+        
+        Parameters
+        ----------
+        z : float or array_like
+            Redshift(s) to calculate distance to.
+            
+        Returns
+        -------
+        float or array_like
+            Angular diameter distance in Mpc.
+            
+        Notes
+        -----
+        Related to comoving distance via d_A = d_C/(1+z).
+        """
+        return self.comoving_distance(z)/(1+z)
+    
+    def comoving_distance(self,z):
+        """
+        Calculate comoving distance to redshift z.
+        
+        The comoving distance is the distance between two points measured along
+        a path defined at the present cosmological time.
+        
+        Parameters
+        ----------
+        z : float or array_like
+            Redshift(s) to calculate distance to.
+            
+        Returns
+        -------
+        float or array_like
+            Comoving distance in Mpc.
+            
+        Notes
+        -----
+        In GREA, the comoving distance is proportional to the difference in tau
+        values between today (a=1) and the target redshift.
+        """
+        dH = 1/self.Hubble(1,units='1/Mpc') # Normalized with correct H(z=0) in Mpc
+        return (self.tau(1)-self.tau(1./(1.+z))) * dH 
+    
+    def cs(self,a):
+        """
+        Calculate the speed of sound in the photon-baryon fluid.
+        
+        Computes the speed of sound in the primordial photon-baryon fluid 
+        as a function of scale factor.
+        
+        Parameters
+        ----------
+        a : float or array_like
+            Scale factor(s) at which to evaluate the sound speed.
+            
+        Returns
+        -------
+        float or array_like
+            Speed of sound in km/s at the specified scale factor(s).
+            
+        Notes
+        -----
+        The sound speed depends on the baryon-to-photon ratio R = ωb/ωγ
+        and decreases as the universe expands due to the increasing influence
+        of baryons on the photon-baryon fluid.
+        """
+        # R is the baryon to photon ratio
+        R = self.omega_b/self.omega_g
+        return C_KMS*(3*(1+(3/4 * R * a)))**(-0.5)
+    
+    def _rs_integrand(self,a):
+        """
+        Integrand for the sound horizon calculation.
+        
+        Internal method defining the integrand for computing the sound horizon.
+        
+        Parameters
+        ----------
+        a : float
+            Scale factor.
+            
+        Returns
+        -------
+        float
+            Value of the sound horizon integrand at scale factor a.
+        """
+        return self.cs(a)/(a**2*self.Hubble(a))
+    
+    def rs(self,z):
+        """
+        Calculate the sound horizon at redshift z.
+        
+        The sound horizon is the maximum distance that acoustic waves could have
+        traveled in the photon-baryon fluid up to a given redshift.
+        
+        Parameters
+        ----------
+        z : float
+            Redshift at which to evaluate the sound horizon, typically z_rec
+            (recombination) or z_drag (baryon drag epoch).
+            
+        Returns
+        -------
+        float
+            Sound horizon distance in Mpc at the specified redshift.
+            
+        Notes
+        -----
+        Computed by integrating the sound speed divided by the expansion rate
+        from early times to the specified redshift.
+        """
+        return quad(self._rs_integrand,self.a.min(),1/(1+z))[0]
+    
+    def _alpha(self):
+        """
+        Calculate the alpha parameter of the GREA model.
+        
+        Alpha is a key dimensionless parameter in the GREA model that relates
+        the keta0 parameter to the horizon distance at the present time.
+        
+        Returns
+        -------
+        float
+            The alpha parameter value.
+        """
+        return self.keta0/self.horizon_distance(1)
+    
+    def _fde(self,a):
+        """
+        Internal method to calculate the normalized dark energy density function.
+        
+        Computes the function that represents the evolution of dark energy density
+        in the GREA model, normalized to its present-day value.
+        
+        Parameters
+        ----------
+        a : float or array_like
+            Scale factor(s) at which to evaluate the function.
+            
+        Returns
+        -------
+        float or array_like
+            Normalized dark energy density at the specified scale factor(s).
+        """
+        return (np.sinh(2*self.tau(a))/a**2) / np.sinh(2*self.tau(1))
+    
+    def fde(self,a):
+        """
+        Calculate the normalized dark energy density evolution.
+        
+        This method returns the ratio of dark energy density at scale factor a
+        to its present-day value, providing insight into how the effective dark
+        energy evolves in the GREA model.
+        
+        Parameters
+        ----------
+        a : float or array_like
+            Scale factor(s) at which to evaluate the dark energy density.
+            
+        Returns
+        -------
+        float or array_like
+            Normalized dark energy density at the specified scale factor(s).
+        """
+        return self._fde(a)
+    
+    def w(self,a):
+        """
+        Calculate the effective equation of state parameter.
+        
+        Computes the effective equation of state parameter w(a) of dark energy
+        in the GREA model at a given scale factor. The equation of state relates
+        pressure to energy density via p = w*ρ.
+        
+        Parameters
+        ----------
+        a : float or array_like
+            Scale factor(s) at which to evaluate w.
+            
+        Returns
+        -------
+        float or array_like
+            Effective equation of state parameter w at the specified scale factor(s).
+            
+        Notes
+        -----
+        In GREA, w is defined as w = -1/3 * (1 + 2*a * coth(2*tau(a)) * tau'(a)).
+        This differs from the constant w=-1 of a cosmological constant.
+        """
+        w = 1/3 * (-1 - 2*a * coth(2*self.tau(a)) * self.tau_spline.derivative()(a))
+        return w
+    
+    @property
+    def aeq(self)-> float:
+        """
+        Scale factor at matter-radiation equality.
+        
+        Returns
+        -------
+        float
+            The scale factor at which the energy densities of matter and radiation
+            are equal. This is a key epoch in cosmic history.
+        """
+        return (self.Omega_g + self.Omega_nu)/self.Omega_m    
+    
+    @property
+    def omega_cdm(self)-> float:
+        """
+        Physical cold dark matter density parameter.
+        
+        Returns
+        -------
+        float
+            The physical cold dark matter density parameter ωcdm = Ωcdm * h².
+            Calculated by subtracting baryonic density from total matter density.
+        """
+        return self.Omega_m * self.h**2 - self.omega_b
+    
+    @property
+    def Omega_g(self)-> float:
+        """
+        Photon density parameter.
+        
+        Returns
+        -------
+        float
+            The fractional energy density of photons today (Ωγ = ωγ/h²).
+        """
+        return self.omega_g/self.h**2
+    
+    @property
+    def Omega_nu(self)-> float:
+        """
+        Neutrino density parameter.
+        
+        Returns
+        -------
+        float
+            The fractional energy density of neutrinos today (Ων).
+            Calculated from the effective number of neutrino species Neff and
+            the photon density, accounting for temperature and statistical differences.
+        """
+        return self.Neff * 7/8 *(4/11)**(4/3) * self.Omega_g
+    
+    @property
+    def alpha(self)-> float:
+        """
+        Alpha parameter of the GREA model.
+        
+        Returns
+        -------
+        float
+            The dimensionless alpha parameter that characterizes the strength
+            of the entropic acceleration mechanism in the GREA model.
+        """
+        return self._alpha
+    
+    @property
+    def w0(self)-> float:
+        """
+        Present-day equation of state parameter.
+        
+        Returns
+        -------
+        float
+            The effective equation of state parameter w at the present time (a=1).
+            This is commonly used in dark energy parametrizations.
+        """
+        return self.w(1)
+    
+    @property
+    def wa(self)-> float:
+        """
+        Equation of state evolution parameter.
+        
+        Returns
+        -------
+        float
+            The wa parameter in the CPL parametrization w(a) = w0 + wa(1-a).
+            This captures the first-order evolution of the equation of state.
+            
+        Notes
+        -----
+        Calculated from the first and second derivatives of tau at a=1.
+        """
+        tau = self.tau(1)
+        taup = self.tau_spline.derivative()(1)
+        taupp = self.tau_spline.derivative(n=2)(1)
+        factor = -4*taup**2 + np.sinh(4*tau)* (taup+taupp)
+        return 1/3 * csch(2*tau)**2 * factor 
+    
+    @property
+    def z_rec(self)-> float:
+        """
+        Redshift of recombination.
+        
+        Returns
+        -------
+        float
+            The redshift of the last scattering surface (recombination),
+            when photons decoupled from the baryon-photon plasma.
+            Calculated using fitting formulae dependent on cosmological parameters.
+        """
+        return approx.zCMB(self.Omega_m * self.h**2, self.omega_b)
+    
+    @property
+    def z_drag(self)-> float:
+        """
+        Redshift of the baryon drag epoch.
+        
+        Returns
+        -------
+        float
+            The redshift of the baryon drag epoch, when baryons were released
+            from the Compton drag of photons. This typically occurs at slightly
+            lower redshift than recombination and is relevant for BAO measurements.
+        """
+        return approx.zdrag(self.Omega_m * self.h**2, self.omega_b)
+    
+    @property
+    def rdrag(self)-> float:
+        """
+        Sound horizon at the baryon drag epoch.
+        
+        Returns
+        -------
+        float
+            The comoving sound horizon at the baryon drag epoch in Mpc.
+            This is the standard ruler used in BAO measurements.
+        """
+        return self.rs(self.z_drag)
+
+    @property
+    def rs_rec(self)-> float:
+        """
+        Sound horizon at recombination.
+        
+        Returns
+        -------
+        float
+            The comoving sound horizon at recombination (last scattering) in Mpc.
+            This determines the scale of the acoustic peaks in the CMB.
+        """
+        return self.rs(self.z_rec)
+
+    @property
+    def thetastar(self)-> float:
+        """
+        Angular scale of the sound horizon at recombination.
+        
+        Returns
+        -------
+        float
+            The angular size of the sound horizon at recombination (θ*),
+            which is precisely measured by the CMB and serves as a key
+            cosmological observable for parameter constraints.
+        """
+        return self.rs_rec/self.comoving_distance(self.z_rec)[0]
+
+
+
+
+
+
+
+

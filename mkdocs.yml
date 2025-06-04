@@ -1,4 +1,4 @@
-site_name: greapy
+site_name: GREApy
 site_description: A simple python-based implementation of the General Relativistic Entropic Acceleration (GREA) theory
 site_author: rcalderonb6
 site_url: https://rcalderonb6.github.io/greapy
@@ -8,22 +8,27 @@ copyright: "Copyright &copy; 2024 - 2024 Rodrigo Calderon"
 
 theme:
     palette:
-        - scheme: default
-          #   primary: blue
-          #   accent: indigo
-          toggle:
-              icon: material/toggle-switch-off-outline
-              name: Switch to dark mode
         - scheme: slate
           primary: indigo
           accent: indigo
           toggle:
               icon: material/toggle-switch
               name: Switch to light mode
+            #   name: Switch to dark mode
+        - scheme: default
+            # primary: blue
+            # accent: indigo
+          toggle:
+              icon: material/toggle-switch-off-outline
+            #   name: Switch to light mode
+              name: Switch to dark mode
+
+
+    
     name: material
     icon:
         repo: fontawesome/brands/github
-    # logo: assets/logo.png
+    logo: docs/assets/logo.png
     # favicon: assets/favicon.png
     features:
         - navigation.instant
