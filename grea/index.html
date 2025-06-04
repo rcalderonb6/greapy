@@ -65,8 +65,8 @@
 <script>
   window.MathJax = {
     tex: {
-      inlineMath: [["\\(", "\\)"]],
-      displayMath: [["\\[", "\\]"]],
+      inlineMath: [["\(", "\)"]],
+      displayMath: [["\[", "\]"]],
       processEscapes: true,
       processEnvironments: true
     },
@@ -2130,18 +2130,18 @@ framework. GREA proposes that cosmic acceleration arises from entropic forces
 rather than dark energy.</p>
 <h4 id="greapy.grea.GREA--parameters">Parameters<a class="headerlink" href="#greapy.grea.GREA--parameters" title="Permanent link">&para;</a></h4>
 <p>h : float, default=0.6736
-    Dimensionless Hubble parameter (H0/(100 km/s/Mpc)).
-Omega_m : float, default=0.315
-    Fractional matter density (Ωₘ) today (z=0).
-omega_b : float, default=0.002237
-    Physical baryon density parameter (Ωb × h²).
-keta0 : float, default=3.55
-    GREA model parameter related to the entropic acceleration mechanism.
-omega_g : float, default=0.0000247739
-    Physical photon density parameter (Ωγ × h²).
-Neff : float, default=3.044
-    Effective number of neutrino species.
-a_min : float, default=1e-11
+    Dimensionless Hubble parameter (H0/(100 km/s/Mpc)).</p>
+<p>Omega_m : float, default=0.315
+    Fractional matter density (Ωₘ) today (z=0).</p>
+<p>omega_b : float, default=0.002237
+    Physical baryon density parameter (Ωb x h²).</p>
+<p>keta0 : float, default=3.55
+    GREA model parameter related to the entropic acceleration mechanism.</p>
+<p>omega_g : float, default=0.0000247739
+    Physical photon density parameter (Ωγ x h²).</p>
+<p>Neff : float, default=3.044
+    Effective number of neutrino species.</p>
+<p>a_min : float, default=1e-11
     Minimum scale factor for integration.</p>
 <h4 id="greapy.grea.GREA--attributes">Attributes<a class="headerlink" href="#greapy.grea.GREA--attributes" title="Permanent link">&para;</a></h4>
 <p>Numerous derived parameters and cosmological quantities accessible as properties,
@@ -2164,16 +2164,22 @@ cosmic epochs.</p>
 <span class="sd">    ----------</span>
 <span class="sd">    h : float, default=0.6736</span>
 <span class="sd">        Dimensionless Hubble parameter (H0/(100 km/s/Mpc)).</span>
+
 <span class="sd">    Omega_m : float, default=0.315</span>
 <span class="sd">        Fractional matter density (Ωₘ) today (z=0).</span>
+
 <span class="sd">    omega_b : float, default=0.002237</span>
-<span class="sd">        Physical baryon density parameter (Ωb × h²).</span>
+<span class="sd">        Physical baryon density parameter (Ωb x h²).</span>
+
 <span class="sd">    keta0 : float, default=3.55</span>
 <span class="sd">        GREA model parameter related to the entropic acceleration mechanism.</span>
+
 <span class="sd">    omega_g : float, default=0.0000247739</span>
-<span class="sd">        Physical photon density parameter (Ωγ × h²).</span>
+<span class="sd">        Physical photon density parameter (Ωγ x h²).</span>
+
 <span class="sd">    Neff : float, default=3.044</span>
 <span class="sd">        Effective number of neutrino species.</span>
+
 <span class="sd">    a_min : float, default=1e-11</span>
 <span class="sd">        Minimum scale factor for integration.</span>
 
@@ -2189,7 +2195,6 @@ cosmic epochs.</p>
     <span class="n">keta0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.55</span>
     <span class="n">omega_g</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0000247739</span> <span class="c1"># Physical density of photons (Ω_g * h^2)</span>
     <span class="n">Neff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.044</span> <span class="c1"># Effective number of neutrino species</span>
-
 
     <span class="n">a_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-11</span> <span class="c1"># Minimum scale factor for integration</span>
 
@@ -2701,7 +2706,7 @@ cosmic epochs.</p>
 <span class="sd">            which is precisely measured by the CMB and serves as a key</span>
 <span class="sd">            cosmological observable for parameter constraints.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rs_rec</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_rec</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rs_rec</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_rec</span><span class="p">)</span>
 </code></pre></div>
         </details>
 
@@ -3780,7 +3785,7 @@ for a dynamical dark energy component.</p>
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2024 - 2024 Rodrigo Calderon
+      Copyright &copy; 2025 Rodrigo Calderón
     </div>
   
   
