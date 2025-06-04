@@ -1,5 +1,26 @@
 {% extends "base.html" %}
 
+{% block extrahead %}
+<!-- MathJax Configuration -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [["\\(", "\\)"]],
+      displayMath: [["\\[", "\\]"]],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      ignoreHtmlClass: ".*|",
+      processHtmlClass: "arithmatex"
+    }
+  };
+</script>
+<!-- Load MathJax -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+{{ super() }}
+{% endblock extrahead %}
+
 {% block content %}
 {% if page.nb_url %}
     <a href="{{ page.nb_url }}" title="Download Notebook" class="md-content__button md-icon">

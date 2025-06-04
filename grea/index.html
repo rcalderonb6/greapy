@@ -61,6 +61,25 @@
     
     
     
+<!-- MathJax Configuration -->
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [["\\(", "\\)"]],
+      displayMath: [["\\[", "\\]"]],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      ignoreHtmlClass: ".*|",
+      processHtmlClass: "arithmatex"
+    }
+  };
+</script>
+<!-- Load MathJax -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
   </head>
   
   
@@ -916,15 +935,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#greapy.grea.GREA.Hubble--notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Notes
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -1708,15 +1718,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#greapy.grea.GREA.Hubble--notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Notes
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -2286,6 +2287,13 @@ cosmic epochs.</p>
 <span class="sd">        Computes the Hubble parameter H(a) in the GREA model, including </span>
 <span class="sd">        contributions from matter, radiation, and the entropic acceleration term.</span>
 
+<span class="sd">        The Hubble parameter in GREA is given by:</span>
+
+<span class="sd">        $$H(a) = H_0 \sqrt{\frac{\Omega_m(1 + a_{\text{eq}}/a)}{a^3} + \frac{4\sinh(2\tau(a))}{3a^2[\sinh(2k\eta_0) - 2k\eta_0]}}$$</span>
+
+<span class="sd">        where $H_0 = 100h$ km/s/Mpc, $\tau(a)$ is the dimensionless horizon distance, </span>
+<span class="sd">        and $k\eta_0$ is a model parameter.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        a : float or array_like</span>
@@ -2297,11 +2305,6 @@ cosmic epochs.</p>
 <span class="sd">        -------</span>
 <span class="sd">        float or array_like</span>
 <span class="sd">            Hubble parameter at the specified scale factor(s) in the requested units.</span>
-
-<span class="sd">        Notes</span>
-<span class="sd">        -----</span>
-<span class="sd">        The Hubble parameter in GREA depends on both matter-radiation content</span>
-<span class="sd">        and the entropic acceleration term through tau(a).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">den</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">keta0</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">keta0</span>
         <span class="n">E</span> <span class="o">=</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aeq</span><span class="o">/</span><span class="n">a</span><span class="p">))</span><span class="o">/</span><span class="n">a</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">)))</span><span class="o">/</span><span class="p">(</span><span class="mf">3.</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">den</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
@@ -2509,6 +2512,12 @@ cosmic epochs.</p>
 <span class="sd">        in the GREA model at a given scale factor. The equation of state relates</span>
 <span class="sd">        pressure to energy density via p = w*ρ.</span>
 
+<span class="sd">        The equation of state parameter in GREA is given by:</span>
+
+<span class="sd">        $$w(a) = -\frac{1}{3} \left( 1 + 2a \, \coth(2\tau(a)) \, \tau&#39;(a) \right)$$</span>
+
+<span class="sd">        where $\tau&#39;(a)$ is the derivative of $\tau$ with respect to scale factor $a$.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        a : float or array_like</span>
@@ -2521,8 +2530,8 @@ cosmic epochs.</p>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        In GREA, w is defined as w = -1/3 * (1 + 2*a * coth(2*tau(a)) * tau&#39;(a)).</span>
-<span class="sd">        This differs from the constant w=-1 of a cosmological constant.</span>
+<span class="sd">        This differs from the constant w=-1 of a cosmological constant and allows</span>
+<span class="sd">        for a dynamical dark energy component.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">w</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">a</span> <span class="o">*</span> <span class="n">coth</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="o">.</span><span class="n">derivative</span><span class="p">()(</span><span class="n">a</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">w</span>
@@ -3115,6 +3124,10 @@ rather than scale factor a.</p>
       <p>Calculate Hubble parameter at a given scale factor.</p>
 <p>Computes the Hubble parameter H(a) in the GREA model, including 
 contributions from matter, radiation, and the entropic acceleration term.</p>
+<p>The Hubble parameter in GREA is given by:</p>
+<div class="arithmatex">\[H(a) = H_0 \sqrt{rac{\Omega_m(1 + a_{        ext{eq}}/a)}{a^3} + rac{4\sinh(2       au(a))}{3a^2[\sinh(2k\eta_0) - 2k\eta_0]}}\]</div>
+<p>where <span class="arithmatex">\(H_0 = 100h\)</span> km/s/Mpc, $  au(a)$ is the dimensionless horizon distance, 
+and <span class="arithmatex">\(k\eta_0\)</span> is a model parameter.</p>
 <h5 id="greapy.grea.GREA.Hubble--parameters">Parameters<a class="headerlink" href="#greapy.grea.GREA.Hubble--parameters" title="Permanent link">&para;</a></h5>
 <p>a : float or array_like
     Scale factor(s) at which to evaluate the Hubble parameter.
@@ -3123,9 +3136,6 @@ units : str, default='km/s/Mpc'
 <h5 id="greapy.grea.GREA.Hubble--returns">Returns<a class="headerlink" href="#greapy.grea.GREA.Hubble--returns" title="Permanent link">&para;</a></h5>
 <p>float or array_like
     Hubble parameter at the specified scale factor(s) in the requested units.</p>
-<h5 id="greapy.grea.GREA.Hubble--notes">Notes<a class="headerlink" href="#greapy.grea.GREA.Hubble--notes" title="Permanent link">&para;</a></h5>
-<p>The Hubble parameter in GREA depends on both matter-radiation content
-and the entropic acceleration term through tau(a).</p>
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
@@ -3135,6 +3145,13 @@ and the entropic acceleration term through tau(a).</p>
 
 <span class="sd">    Computes the Hubble parameter H(a) in the GREA model, including </span>
 <span class="sd">    contributions from matter, radiation, and the entropic acceleration term.</span>
+
+<span class="sd">    The Hubble parameter in GREA is given by:</span>
+
+<span class="sd">    $$H(a) = H_0 \sqrt{\frac{\Omega_m(1 + a_{\text{eq}}/a)}{a^3} + \frac{4\sinh(2\tau(a))}{3a^2[\sinh(2k\eta_0) - 2k\eta_0]}}$$</span>
+
+<span class="sd">    where $H_0 = 100h$ km/s/Mpc, $\tau(a)$ is the dimensionless horizon distance, </span>
+<span class="sd">    and $k\eta_0$ is a model parameter.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -3147,11 +3164,6 @@ and the entropic acceleration term through tau(a).</p>
 <span class="sd">    -------</span>
 <span class="sd">    float or array_like</span>
 <span class="sd">        Hubble parameter at the specified scale factor(s) in the requested units.</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    The Hubble parameter in GREA depends on both matter-radiation content</span>
-<span class="sd">    and the entropic acceleration term through tau(a).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">den</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">keta0</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">keta0</span>
     <span class="n">E</span> <span class="o">=</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aeq</span><span class="o">/</span><span class="n">a</span><span class="p">))</span><span class="o">/</span><span class="n">a</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">)))</span><span class="o">/</span><span class="p">(</span><span class="mf">3.</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">den</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
@@ -3626,6 +3638,10 @@ The initial condition is set at the minimum scale factor.</p>
 <p>Computes the effective equation of state parameter w(a) of dark energy
 in the GREA model at a given scale factor. The equation of state relates
 pressure to energy density via p = w*ρ.</p>
+<p>The equation of state parameter in GREA is given by:</p>
+<div class="arithmatex">\[w(a) = -rac{1}{3} \left( 1 + 2a \, \coth(2   au(a)) \,       au'(a) 
+ight)\]</div>
+<p>where $ au'(a)$ is the derivative of $  au$ with respect to scale factor <span class="arithmatex">\(a\)</span>.</p>
 <h5 id="greapy.grea.GREA.w--parameters">Parameters<a class="headerlink" href="#greapy.grea.GREA.w--parameters" title="Permanent link">&para;</a></h5>
 <p>a : float or array_like
     Scale factor(s) at which to evaluate w.</p>
@@ -3633,8 +3649,8 @@ pressure to energy density via p = w*ρ.</p>
 <p>float or array_like
     Effective equation of state parameter w at the specified scale factor(s).</p>
 <h5 id="greapy.grea.GREA.w--notes">Notes<a class="headerlink" href="#greapy.grea.GREA.w--notes" title="Permanent link">&para;</a></h5>
-<p>In GREA, w is defined as w = -1/3 * (1 + 2<em>a * coth(2</em>tau(a)) * tau'(a)).
-This differs from the constant w=-1 of a cosmological constant.</p>
+<p>This differs from the constant w=-1 of a cosmological constant and allows
+for a dynamical dark energy component.</p>
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
@@ -3645,6 +3661,12 @@ This differs from the constant w=-1 of a cosmological constant.</p>
 <span class="sd">    Computes the effective equation of state parameter w(a) of dark energy</span>
 <span class="sd">    in the GREA model at a given scale factor. The equation of state relates</span>
 <span class="sd">    pressure to energy density via p = w*ρ.</span>
+
+<span class="sd">    The equation of state parameter in GREA is given by:</span>
+
+<span class="sd">    $$w(a) = -\frac{1}{3} \left( 1 + 2a \, \coth(2\tau(a)) \, \tau&#39;(a) \right)$$</span>
+
+<span class="sd">    where $\tau&#39;(a)$ is the derivative of $\tau$ with respect to scale factor $a$.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -3658,8 +3680,8 @@ This differs from the constant w=-1 of a cosmological constant.</p>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    In GREA, w is defined as w = -1/3 * (1 + 2*a * coth(2*tau(a)) * tau&#39;(a)).</span>
-<span class="sd">    This differs from the constant w=-1 of a cosmological constant.</span>
+<span class="sd">    This differs from the constant w=-1 of a cosmological constant and allows</span>
+<span class="sd">    for a dynamical dark energy component.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">w</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">a</span> <span class="o">*</span> <span class="n">coth</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="o">.</span><span class="n">derivative</span><span class="p">()(</span><span class="n">a</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">w</span>
