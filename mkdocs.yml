@@ -28,7 +28,7 @@ theme:
     name: material
     icon:
         repo: fontawesome/brands/github
-    logo: docs/assets/logo.png
+    # logo: docs/assets/logo.png
     # favicon: assets/favicon.png
     features:
         - navigation.instant
@@ -84,8 +84,8 @@ nav:
     # - FAQ: faq.md
     # - Changelog: changelog.md
     - Report Issues: https://github.com/rcalderonb6/greapy/issues
-    # - Examples:
-        # - examples/intro.ipynb
-    # - API Reference:
-        #   - greapy module: greapy.md
+    - Examples:
+        - examples/intro.ipynb
+    - API Reference:
+          - GREA module: grea.md
         #   - common module: common.md
