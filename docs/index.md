@@ -1,4 +1,6 @@
-# Welcome to greapy
+# Welcome to `GREApy`
+
+<img src="assets/logo.png" width="400" height="400">
 
 
 [![image](https://img.shields.io/pypi/v/greapy.svg)](https://pypi.python.org/pypi/greapy)
@@ -11,6 +13,6 @@
 -   Documentation: <https://rcalderonb6.github.io/greapy>
     
 
-## Features
+<!-- ## Features
 
--   TODO
+-   TODO -->
