@@ -1,4 +1,4 @@
-# greapy
+# `GREApy`
 
 
 [![image](https://img.shields.io/pypi/v/greapy.svg)](https://pypi.python.org/pypi/greapy)
@@ -12,6 +12,6 @@
 -   Documentation: https://rcalderonb6.github.io/greapy
     
 
-## Features
+<!-- ## Features -->
 
--   TODO
+<!-- -   TODO -->
