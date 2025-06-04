@@ -164,6 +164,13 @@ class GREA():
         Computes the Hubble parameter H(a) in the GREA model, including 
         contributions from matter, radiation, and the entropic acceleration term.
         
+        The Hubble parameter in GREA is given by:
+        
+        $$H(a) = H_0 \sqrt{\frac{\Omega_m(1 + a_{\text{eq}}/a)}{a^3} + \frac{4\sinh(2\tau(a))}{3a^2[\sinh(2k\eta_0) - 2k\eta_0]}}$$
+        
+        where $H_0 = 100h$ km/s/Mpc, $\tau(a)$ is the dimensionless horizon distance, 
+        and $k\eta_0$ is a model parameter.
+        
         Parameters
         ----------
         a : float or array_like
@@ -175,11 +182,6 @@ class GREA():
         -------
         float or array_like
             Hubble parameter at the specified scale factor(s) in the requested units.
-            
-        Notes
-        -----
-        The Hubble parameter in GREA depends on both matter-radiation content
-        and the entropic acceleration term through tau(a).
         """
         den=np.sinh(2*self.keta0)-2*self.keta0
         E = ((self.Omega_m*(1 + self.aeq/a))/a**3 + (4*np.sinh(2*self.tau(a)))/(3.*a**2)/den)**(0.5)
@@ -387,6 +389,12 @@ class GREA():
         in the GREA model at a given scale factor. The equation of state relates
         pressure to energy density via p = w*ρ.
         
+        The equation of state parameter in GREA is given by:
+        
+        $$w(a) = -\frac{1}{3} \left( 1 + 2a \, \coth(2\tau(a)) \, \tau'(a) \right)$$
+        
+        where $\tau'(a)$ is the derivative of $\tau$ with respect to scale factor $a$.
+        
         Parameters
         ----------
         a : float or array_like
@@ -399,8 +407,8 @@ class GREA():
             
         Notes
         -----
-        In GREA, w is defined as w = -1/3 * (1 + 2*a * coth(2*tau(a)) * tau'(a)).
-        This differs from the constant w=-1 of a cosmological constant.
+        This differs from the constant w=-1 of a cosmological constant and allows
+        for a dynamical dark energy component.
         """
         w = 1/3 * (-1 - 2*a * coth(2*self.tau(a)) * self.tau_spline.derivative()(a))
         return w
