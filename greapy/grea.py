@@ -41,16 +41,22 @@ class GREA():
     ----------
     h : float, default=0.6736
         Dimensionless Hubble parameter (H0/(100 km/s/Mpc)).
+        
     Omega_m : float, default=0.315
         Fractional matter density (Ωₘ) today (z=0).
+        
     omega_b : float, default=0.002237
-        Physical baryon density parameter (Ωb × h²).
+        Physical baryon density parameter (Ωb x h²).
+        
     keta0 : float, default=3.55
         GREA model parameter related to the entropic acceleration mechanism.
+        
     omega_g : float, default=0.0000247739
-        Physical photon density parameter (Ωγ × h²).
+        Physical photon density parameter (Ωγ x h²).
+        
     Neff : float, default=3.044
         Effective number of neutrino species.
+        
     a_min : float, default=1e-11
         Minimum scale factor for integration.
         
@@ -67,7 +73,6 @@ class GREA():
     omega_g: float = 0.0000247739 # Physical density of photons (Ω_g * h^2)
     Neff: float = 3.044 # Effective number of neutrino species
 
-    
     a_min: float = 1e-11 # Minimum scale factor for integration
     
     def __post_init__(self):
@@ -578,7 +583,7 @@ class GREA():
             which is precisely measured by the CMB and serves as a key
             cosmological observable for parameter constraints.
         """
-        return self.rs_rec/self.comoving_distance(self.z_rec)[0]
+        return self.rs_rec/self.comoving_distance(self.z_rec)
 
 
 
