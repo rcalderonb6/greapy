@@ -163,7 +163,7 @@ class GREA():
         return self.tau_spline(a)
     
     def Hubble(self,a,units='km/s/Mpc'):
-        """
+        r"""
         Calculate Hubble parameter at a given scale factor.
         
         Computes the Hubble parameter H(a) in the GREA model, including 
@@ -216,7 +216,7 @@ class GREA():
         return self.Hubble(1/(1+z))
     
     def angular_diameter_distance(self,z):
-        """
+        r"""
         Calculate angular diameter distance to redshift z.
         
         The angular diameter distance is the ratio of an object's physical 
@@ -234,7 +234,7 @@ class GREA():
             
         Notes
         -----
-        Related to comoving distance via d_A = d_C/(1+z).
+        Related to comoving distance via $d_A = d_C/(1+z)$.
         """
         return self.comoving_distance(z)/(1+z)
     
