@@ -83,6 +83,8 @@ class GREA():
         for numerical integration and interpolation purposes.
         """
         self.a = np.logspace(np.log10(self.a_min),0.5,500)
+        self.tau_spline = None # Placeholder for tau spline interpolation
+        self._require_update = False # Flag to indicate if parameters need to be updated
     
     def horizon_distance(self,a):
         """
@@ -157,9 +159,13 @@ class GREA():
         a spline interpolation for efficient evaluation at arbitrary scale factors.
         The initial condition is set at the minimum scale factor.
         """
-        y0 = [self.a[0]/np.sqrt(self.Omega_g+self.Omega_nu)]
-        theta = (self.Omega_m,self.keta0,self.aeq)
-        self.tau_spline=UnivariateSpline(self.a,odeint(self._system,y0,self.a,args=theta),s=0)
+        return self.tau_spline(a)
+    
+    def _tau(self,a):
+        if self.tau_spline is None or self._require_update:
+            y0 = [self.a[0]/np.sqrt(self.Omega_g+self.Omega_nu)]
+            theta = (self.Omega_m,self.keta0,self.aeq)
+            self.tau_spline=UnivariateSpline(self.a,odeint(self._system,y0,self.a,args=theta),s=0)
         return self.tau_spline(a)
     
     def Hubble(self,a,units='km/s/Mpc'):
