@@ -82,7 +82,6 @@ nav:
     - Home: index.md
     - Installation: installation.md
     - Usage: usage.md
-    # - Playground: playground.md
     # - Contributing: contributing.md
     # - FAQ: faq.md
     # - Changelog: changelog.md
