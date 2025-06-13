@@ -16,7 +16,6 @@ from scipy.integrate import odeint,quad
 from scipy.interpolate import UnivariateSpline
 
 from greapy import approximations as approx
-from greapy.math import coth, csch
 
 # Physical constants
 C_KMS: float = 299792.458  # Speed of light in km/s
@@ -48,7 +47,7 @@ class GREA():
     omega_b : float, default=0.002237
         Physical baryon density parameter (Ωb x h²).
         
-    keta0 : float, default=3.55
+    kappa : float, default=3.55
         GREA model parameter related to the entropic acceleration mechanism.
         
     omega_g : float, default=0.0000247739
@@ -69,7 +68,7 @@ class GREA():
     h: float = 0.6736 # Dimensionless Hubble parameter
     Omega_m: float = 0.315 # Fractional matter density (Ω_m) today (z=0)    
     omega_b: float = 0.002237# Physical baryon density (Ω_b * h^2)
-    keta0: float = 3.55
+    kappa: float = 3.55
     omega_g: float = 0.0000247739 # Physical density of photons (Ω_g * h^2)
     Neff: float = 3.044 # Effective number of neutrino species
 
@@ -106,7 +105,7 @@ class GREA():
         """
         return self.tau(a)
     
-    def _system(self,y,a,Omega_m,keta0,aeq):
+    def _system(self,y,a,Omega_m,kappa,aeq):
         """
         Define the ODE system for tau evolution.
         
@@ -121,7 +120,7 @@ class GREA():
             Scale factor.
         Omega_m : float
             Matter density parameter.
-        keta0 : float
+        kappa : float
             GREA model parameter.
         aeq : float
             Scale factor at matter-radiation equality.
@@ -131,7 +130,7 @@ class GREA():
         float
             Derivative of tau with respect to scale factor.
         """
-        den = np.sinh(2*keta0)-2*keta0
+        den = np.sinh(2*kappa)-2*kappa
         yprime = a**2 * np.sqrt((Omega_m*(1 + aeq/a))/a**3 + (4*np.sinh(2*y))/(3.*a**2)/den)
         return 1/yprime
     
@@ -164,7 +163,7 @@ class GREA():
     def _tau(self,a):
         if self.tau_spline is None or self._require_update:
             y0 = [self.a[0]/np.sqrt(self.Omega_g+self.Omega_nu)]
-            theta = (self.Omega_m,self.keta0,self.aeq)
+            theta = (self.Omega_m,self.kappa,self.aeq)
             self.tau_spline=UnivariateSpline(self.a,odeint(self._system,y0,self.a,args=theta),s=0)
         return self.tau_spline(a)
     
@@ -194,7 +193,7 @@ class GREA():
         float or array_like
             Hubble parameter at the specified scale factor(s) in the requested units.
         """
-        den=np.sinh(2*self.keta0)-2*self.keta0
+        den=np.sinh(2*self.kappa)-2*self.kappa
         E = ((self.Omega_m*(1 + self.aeq/a))/a**3 + (4*np.sinh(2*self.tau(a)))/(3.*a**2)/den)**(0.5)
         return 100*self.h * E * H_units_conv_factor[units]
     
@@ -344,14 +343,14 @@ class GREA():
         Calculate the alpha parameter of the GREA model.
         
         Alpha is a key dimensionless parameter in the GREA model that relates
-        the keta0 parameter to the horizon distance at the present time.
+        the curvature scale (kappa) to the horizon distance at the present time.
         
         Returns
         -------
         float
             The alpha parameter value.
         """
-        return self.keta0/self.horizon_distance(1)
+        return self.kappa/self.horizon_distance(1)
     
     def _fde(self,a):
         """
@@ -402,9 +401,9 @@ class GREA():
         
         The equation of state parameter in GREA is given by:
         
-        $$w(a) = -\frac{1}{3} \left( 1 + 2a \, \coth(2\tau(a)) \, \tau'(a) \right)$$
+        $$w(a) = -\\frac{1}{3} \\left( 1 + 2a \\coth(2\\tau(a)) \\tau'(a) \\right)$$
         
-        where $\tau'(a)$ is the derivative of $\tau$ with respect to scale factor $a$.
+        where $\\tau'(a)$ is the derivative of $\\tau$ with respect to scale factor $a$.
         
         Parameters
         ----------
@@ -591,10 +590,34 @@ class GREA():
         """
         return self.rs_rec/self.comoving_distance(self.z_rec)
 
+def coth(x):
+    """
+    Hyperbolic cotangent function.
+    
+    Parameters
+    ----------
+    x : float or array_like
+        Input value(s)
+        
+    Returns
+    -------
+    float or array_like
+        Hyperbolic cotangent of x
+    """
+    return np.cosh(x)/np.sinh(x)
 
-
-
-
-
-
-
+def csch(x):
+    """
+    Hyperbolic cosecant function.
+    
+    Parameters
+    ----------
+    x : float or array_like
+        Input value(s)
+        
+    Returns
+    -------
+    float or array_like
+        Hyperbolic cosecant of x
+    """
+    return 1 / np.sinh(x)
