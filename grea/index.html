@@ -2266,7 +2266,7 @@ rather than dark energy.</p>
 <p>omega_b : float, default=0.002237
     Physical baryon density parameter (Ωb x h²).</p>
 <p>kappa : float, default=3.55
-    GREA model parameter related to the entropic acceleration mechanism.</p>
+    Curvature scale parameter in the GREA model, <span class="arithmatex">\(\kappa=\sqrt{-k}\eta_0\)</span>,</p>
 <p>omega_g : float, default=0.0000247739
     Physical photon density parameter (Ωγ x h²).</p>
 <p>Neff : float, default=3.044
@@ -2281,7 +2281,7 @@ cosmic epochs.</p>
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">GREA</span><span class="p">():</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GREA</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    General Relativistic Entropic Acceleration (GREA) model implementation.</span>
 
@@ -2302,7 +2302,7 @@ cosmic epochs.</p>
 <span class="sd">        Physical baryon density parameter (Ωb x h²).</span>
 
 <span class="sd">    kappa : float, default=3.55</span>
-<span class="sd">        GREA model parameter related to the entropic acceleration mechanism.</span>
+<span class="sd">        Curvature scale parameter in the GREA model, $\\kappa=\\sqrt{-k}\\eta_0$,</span>
 
 <span class="sd">    omega_g : float, default=0.0000247739</span>
 <span class="sd">        Physical photon density parameter (Ωγ x h²).</span>
@@ -2319,14 +2319,15 @@ cosmic epochs.</p>
 <span class="sd">    including equation of state parameters, sound horizons, and redshifts at key</span>
 <span class="sd">    cosmic epochs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">h</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.6736</span> <span class="c1"># Dimensionless Hubble parameter</span>
-    <span class="n">Omega_m</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.315</span> <span class="c1"># Fractional matter density (Ω_m) today (z=0)    </span>
-    <span class="n">omega_b</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.002237</span><span class="c1"># Physical baryon density (Ω_b * h^2)</span>
-    <span class="n">kappa</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.55</span>
-    <span class="n">omega_g</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0000247739</span> <span class="c1"># Physical density of photons (Ω_g * h^2)</span>
-    <span class="n">Neff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.044</span> <span class="c1"># Effective number of neutrino species</span>
 
-    <span class="n">a_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-11</span> <span class="c1"># Minimum scale factor for integration</span>
+    <span class="n">h</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.6736</span>  <span class="c1"># Dimensionless Hubble parameter</span>
+    <span class="n">Omega_m</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.315</span>  <span class="c1"># Fractional matter density (Ω_m) today (z=0)</span>
+    <span class="n">omega_b</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.002237</span>  <span class="c1"># Physical baryon density (Ω_b * h^2)</span>
+    <span class="n">kappa</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.55</span>
+    <span class="n">omega_g</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0000247739</span>  <span class="c1"># Physical density of photons (Ω_g * h^2)</span>
+    <span class="n">Neff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.044</span>  <span class="c1"># Effective number of neutrino species</span>
+
+    <span class="n">a_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-11</span>  <span class="c1"># Minimum scale factor for integration</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2335,17 +2336,26 @@ cosmic epochs.</p>
 <span class="sd">        Creates a logarithmically spaced array of scale factors from a_min to 0.5</span>
 <span class="sd">        for numerical integration and interpolation purposes.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a_min</span><span class="p">),</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Placeholder for tau spline interpolation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_require_update</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Flag to indicate if parameters need to be updated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a_min</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Placeholder for tau spline interpolation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_require_update</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="kc">False</span>  <span class="c1"># Flag to indicate if parameters need to be updated</span>
+        <span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">horizon_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+    <span class="c1"># def _display_(self):</span>
+    <span class="c1">#     &quot;&quot;&quot;Display the current cosmological parameters.&quot;&quot;&quot;</span>
+    <span class="c1">#     import marimo as mo</span>
+
+    <span class="c1">#     return</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">horizon_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate dimensionless horizon distance at scale factor a.</span>
 
 <span class="sd">        This function returns the dimensionless horizon distance needed to compute</span>
-<span class="sd">        the alpha parameter in the GREA model. It&#39;s equivalent to tau(a) in this</span>
-<span class="sd">        implementation.</span>
+<span class="sd">        the alpha parameter in the GREA model. It&#39;s defined as:</span>
+
+<span class="sd">        $$D_H(a) = a \\cdot H \\cdot \\eta(a)$$</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -2357,9 +2367,9 @@ cosmic epochs.</p>
 <span class="sd">        float or array_like</span>
 <span class="sd">            Dimensionless horizon distance at the specified scale factor(s).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">Omega_m</span><span class="p">,</span><span class="n">kappa</span><span class="p">,</span><span class="n">aeq</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">Omega_m</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">aeq</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Define the ODE system for tau evolution.</span>
 
@@ -2384,11 +2394,13 @@ cosmic epochs.</p>
 <span class="sd">        float</span>
 <span class="sd">            Derivative of tau with respect to scale factor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">kappa</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">kappa</span>
-        <span class="n">yprime</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">Omega_m</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">aeq</span><span class="o">/</span><span class="n">a</span><span class="p">))</span><span class="o">/</span><span class="n">a</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="mf">3.</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">den</span><span class="p">)</span>
-        <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="n">yprime</span>
+        <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">kappa</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">kappa</span>
+        <span class="n">yprime</span> <span class="o">=</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">Omega_m</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">aeq</span> <span class="o">/</span> <span class="n">a</span><span class="p">))</span> <span class="o">/</span> <span class="n">a</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">y</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">den</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">yprime</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate tau parameter as a function of scale factor.</span>
 
@@ -2412,28 +2424,30 @@ cosmic epochs.</p>
 <span class="sd">        a spline interpolation for efficient evaluation at arbitrary scale factors.</span>
 <span class="sd">        The initial condition is set at the minimum scale factor.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tau</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_require_update</span><span class="p">:</span>
-            <span class="n">y0</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_g</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_nu</span><span class="p">)]</span>
-            <span class="n">theta</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">kappa</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">aeq</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="o">=</span><span class="n">UnivariateSpline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span><span class="n">odeint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="p">,</span><span class="n">y0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="n">theta</span><span class="p">),</span><span class="n">s</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">y0</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_g</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_nu</span><span class="p">)]</span>
+            <span class="n">theta</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">aeq</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span> <span class="o">=</span> <span class="n">UnivariateSpline</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">odeint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_system</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">theta</span><span class="p">),</span> <span class="n">s</span><span class="o">=</span><span class="mi">0</span>
+            <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">Hubble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="s1">&#39;km/s/Mpc&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Hubble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;km/s/Mpc&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate Hubble parameter at a given scale factor.</span>
 
-<span class="sd">        Computes the Hubble parameter H(a) in the GREA model, including </span>
+<span class="sd">        Computes the Hubble parameter H(a) in the GREA model, including</span>
 <span class="sd">        contributions from matter, radiation, and the entropic acceleration term.</span>
 
 <span class="sd">        The Hubble parameter in GREA is given by:</span>
 
 <span class="sd">        $$H(a) = H_0 \sqrt{\frac{\Omega_m(1 + a_{\text{eq}}/a)}{a^3} + \frac{4\sinh(2\tau(a))}{3a^2[\sinh(2k\eta_0) - 2k\eta_0]}}$$</span>
 
-<span class="sd">        where $H_0 = 100h$ km/s/Mpc, $\tau(a)$ is the dimensionless horizon distance, </span>
-<span class="sd">        and $k\eta_0$ is a model parameter.</span>
+<span class="sd">        where $H_0 = 100h$ km/s/Mpc, $\tau(a)$ is the dimensionless horizon distance,</span>
+<span class="sd">        and $\sqrt{-k}\eta_0$ is a model parameter.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -2447,11 +2461,14 @@ cosmic epochs.</p>
 <span class="sd">        float or array_like</span>
 <span class="sd">            Hubble parameter at the specified scale factor(s) in the requested units.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">den</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">kappa</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">kappa</span>
-        <span class="n">E</span> <span class="o">=</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aeq</span><span class="o">/</span><span class="n">a</span><span class="p">))</span><span class="o">/</span><span class="n">a</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">)))</span><span class="o">/</span><span class="p">(</span><span class="mf">3.</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">den</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-        <span class="k">return</span> <span class="mi">100</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">*</span> <span class="n">E</span> <span class="o">*</span> <span class="n">H_units_conv_factor</span><span class="p">[</span><span class="n">units</span><span class="p">]</span>
+        <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span>
+        <span class="n">E</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aeq</span> <span class="o">/</span> <span class="n">a</span><span class="p">))</span> <span class="o">/</span> <span class="n">a</span><span class="o">**</span><span class="mi">3</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">)))</span> <span class="o">/</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">den</span>
+        <span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">100</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">*</span> <span class="n">E</span> <span class="o">*</span> <span class="n">H_units_conv_factor</span><span class="p">[</span><span class="n">units</span><span class="p">]</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">H</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">H</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate Hubble parameter as a function of redshift.</span>
 
@@ -2472,13 +2489,13 @@ cosmic epochs.</p>
 <span class="sd">        -----</span>
 <span class="sd">        Converts redshift to scale factor via a = 1/(1+z) and calls Hubble(a).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">z</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span><span class="p">))</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">angular_diameter_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">angular_diameter_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
 <span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate angular diameter distance to redshift z.</span>
 
-<span class="sd">        The angular diameter distance is the ratio of an object&#39;s physical </span>
+<span class="sd">        The angular diameter distance is the ratio of an object&#39;s physical</span>
 <span class="sd">        transverse size to its angular size in radians.</span>
 
 <span class="sd">        Parameters</span>
@@ -2495,9 +2512,9 @@ cosmic epochs.</p>
 <span class="sd">        -----</span>
 <span class="sd">        Related to comoving distance via $d_A = d_C/(1+z)$.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">z</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">comoving_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">comoving_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate comoving distance to redshift z.</span>
 
@@ -2519,14 +2536,14 @@ cosmic epochs.</p>
 <span class="sd">        In GREA, the comoving distance is proportional to the difference in tau</span>
 <span class="sd">        values between today (a=1) and the target redshift.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="s1">&#39;1/Mpc&#39;</span><span class="p">)</span> <span class="c1"># Normalized with correct H(z=0) in Mpc</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mf">1.</span><span class="o">+</span><span class="n">z</span><span class="p">)))</span> <span class="o">*</span> <span class="n">dH</span> 
+        <span class="n">dH</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;1/Mpc&quot;</span><span class="p">)</span>  <span class="c1"># Normalized with correct H(z=0) in Mpc</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">z</span><span class="p">)))</span> <span class="o">*</span> <span class="n">dH</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">cs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the speed of sound in the photon-baryon fluid.</span>
 
-<span class="sd">        Computes the speed of sound in the primordial photon-baryon fluid </span>
+<span class="sd">        Computes the speed of sound in the primordial photon-baryon fluid</span>
 <span class="sd">        as a function of scale factor.</span>
 
 <span class="sd">        Parameters</span>
@@ -2546,10 +2563,10 @@ cosmic epochs.</p>
 <span class="sd">        of baryons on the photon-baryon fluid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># R is the baryon to photon ratio</span>
-        <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_b</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">omega_g</span>
-        <span class="k">return</span> <span class="n">C_KMS</span><span class="o">*</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span> <span class="o">*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">a</span><span class="p">)))</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_b</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_g</span>
+        <span class="k">return</span> <span class="n">C_KMS</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">a</span><span class="p">)))</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_rs_integrand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_rs_integrand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Integrand for the sound horizon calculation.</span>
 
@@ -2565,9 +2582,9 @@ cosmic epochs.</p>
 <span class="sd">        float</span>
 <span class="sd">            Value of the sound horizon integrand at scale factor a.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cs</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">rs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the sound horizon at redshift z.</span>
 
@@ -2590,7 +2607,7 @@ cosmic epochs.</p>
 <span class="sd">        Computed by integrating the sound speed divided by the expansion rate</span>
 <span class="sd">        from early times to the specified redshift.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">quad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rs_integrand</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">z</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">quad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rs_integrand</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2604,9 +2621,9 @@ cosmic epochs.</p>
 <span class="sd">        float</span>
 <span class="sd">            The alpha parameter value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">horizon_distance</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">horizon_distance</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_fde</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fde</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Internal method to calculate the normalized dark energy density function.</span>
 
@@ -2623,9 +2640,9 @@ cosmic epochs.</p>
 <span class="sd">        float or array_like</span>
 <span class="sd">            Normalized dark energy density at the specified scale factor(s).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">))</span><span class="o">/</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">/</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">fde</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fde</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the normalized dark energy density evolution.</span>
 
@@ -2645,7 +2662,7 @@ cosmic epochs.</p>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fde</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">w</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">w</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calculate the effective equation of state parameter.</span>
 
@@ -2674,11 +2691,15 @@ cosmic epochs.</p>
 <span class="sd">        This differs from the constant w=-1 of a cosmological constant and allows</span>
 <span class="sd">        for a dynamical dark energy component.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">a</span> <span class="o">*</span> <span class="n">coth</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="o">.</span><span class="n">derivative</span><span class="p">()(</span><span class="n">a</span><span class="p">))</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mi">1</span>
+            <span class="o">/</span> <span class="mi">3</span>
+            <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">coth</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="o">.</span><span class="n">derivative</span><span class="p">()(</span><span class="n">a</span><span class="p">))</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">w</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">aeq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">aeq</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Scale factor at matter-radiation equality.</span>
 
@@ -2688,10 +2709,10 @@ cosmic epochs.</p>
 <span class="sd">            The scale factor at which the energy densities of matter and radiation</span>
 <span class="sd">            are equal. This is a key epoch in cosmic history.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_g</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_nu</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span>    
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_g</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_nu</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">omega_cdm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">omega_cdm</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Physical cold dark matter density parameter.</span>
 
@@ -2704,7 +2725,7 @@ cosmic epochs.</p>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_b</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">Omega_g</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Omega_g</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Photon density parameter.</span>
 
@@ -2713,10 +2734,10 @@ cosmic epochs.</p>
 <span class="sd">        float</span>
 <span class="sd">            The fractional energy density of photons today (Ωγ = ωγ/h²).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_g</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_g</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">Omega_nu</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Omega_nu</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Neutrino density parameter.</span>
 
@@ -2727,10 +2748,10 @@ cosmic epochs.</p>
 <span class="sd">            Calculated from the effective number of neutrino species Neff and</span>
 <span class="sd">            the photon density, accounting for temperature and statistical differences.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Neff</span> <span class="o">*</span> <span class="mi">7</span><span class="o">/</span><span class="mi">8</span> <span class="o">*</span><span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="mi">11</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_g</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Neff</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">/</span> <span class="mi">8</span> <span class="o">*</span> <span class="p">(</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">11</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">4</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">Omega_g</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">alpha</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Alpha parameter of the GREA model.</span>
 
@@ -2740,10 +2761,10 @@ cosmic epochs.</p>
 <span class="sd">            The dimensionless alpha parameter that characterizes the strength</span>
 <span class="sd">            of the entropic acceleration mechanism in the GREA model.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_alpha</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">w0</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">w0</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Present-day equation of state parameter.</span>
 
@@ -2756,7 +2777,7 @@ cosmic epochs.</p>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">wa</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">wa</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Equation of state evolution parameter.</span>
 
@@ -2773,11 +2794,11 @@ cosmic epochs.</p>
         <span class="n">tau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">taup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="o">.</span><span class="n">derivative</span><span class="p">()(</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">taupp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="o">.</span><span class="n">derivative</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">factor</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">taup</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">tau</span><span class="p">)</span><span class="o">*</span> <span class="p">(</span><span class="n">taup</span><span class="o">+</span><span class="n">taupp</span><span class="p">)</span>
-        <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span> <span class="o">*</span> <span class="n">csch</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">tau</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">factor</span> 
+        <span class="n">factor</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span> <span class="o">*</span> <span class="n">taup</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">taup</span> <span class="o">+</span> <span class="n">taupp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">csch</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">tau</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">factor</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">z_rec</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">z_rec</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Redshift of recombination.</span>
 
@@ -2791,7 +2812,7 @@ cosmic epochs.</p>
         <span class="k">return</span> <span class="n">approx</span><span class="o">.</span><span class="n">zCMB</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_b</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">z_drag</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">z_drag</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Redshift of the baryon drag epoch.</span>
 
@@ -2805,7 +2826,7 @@ cosmic epochs.</p>
         <span class="k">return</span> <span class="n">approx</span><span class="o">.</span><span class="n">zdrag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_b</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">rdrag</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rdrag</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sound horizon at the baryon drag epoch.</span>
 
@@ -2818,7 +2839,7 @@ cosmic epochs.</p>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_drag</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">rs_rec</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rs_rec</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sound horizon at recombination.</span>
 
@@ -2831,7 +2852,7 @@ cosmic epochs.</p>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_rec</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">thetastar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">thetastar</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Angular scale of the sound horizon at recombination.</span>
 
@@ -2842,7 +2863,7 @@ cosmic epochs.</p>
 <span class="sd">            which is precisely measured by the CMB and serves as a key</span>
 <span class="sd">            cosmological observable for parameter constraints.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rs_rec</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_rec</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rs_rec</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z_rec</span><span class="p">)</span>
 </code></pre></div>
         </details>
 
@@ -3220,7 +3241,7 @@ rather than scale factor a.</p>
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">H</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">H</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate Hubble parameter as a function of redshift.</span>
 
@@ -3241,7 +3262,7 @@ rather than scale factor a.</p>
 <span class="sd">    -----</span>
 <span class="sd">    Converts redshift to scale factor via a = 1/(1+z) and calls Hubble(a).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">z</span><span class="p">))</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span><span class="p">))</span>
 </code></pre></div>
         </details>
     </div>
@@ -3263,12 +3284,12 @@ rather than scale factor a.</p>
     <div class="doc doc-contents ">
 
       <p>Calculate Hubble parameter at a given scale factor.</p>
-<p>Computes the Hubble parameter H(a) in the GREA model, including 
+<p>Computes the Hubble parameter H(a) in the GREA model, including
 contributions from matter, radiation, and the entropic acceleration term.</p>
 <p>The Hubble parameter in GREA is given by:</p>
 <div class="arithmatex">\[H(a) = H_0 \sqrt{\frac{\Omega_m(1 + a_{\text{eq}}/a)}{a^3} + \frac{4\sinh(2\tau(a))}{3a^2[\sinh(2k\eta_0) - 2k\eta_0]}}\]</div>
-<p>where <span class="arithmatex">\(H_0 = 100h\)</span> km/s/Mpc, <span class="arithmatex">\(\tau(a)\)</span> is the dimensionless horizon distance, 
-and <span class="arithmatex">\(k\eta_0\)</span> is a model parameter.</p>
+<p>where <span class="arithmatex">\(H_0 = 100h\)</span> km/s/Mpc, <span class="arithmatex">\(\tau(a)\)</span> is the dimensionless horizon distance,
+and <span class="arithmatex">\(\sqrt{-k}\eta_0\)</span> is a model parameter.</p>
 <h5 id="greapy.grea.GREA.Hubble--parameters">Parameters<a class="headerlink" href="#greapy.grea.GREA.Hubble--parameters" title="Permanent link">&para;</a></h5>
 <p>a : float or array_like
     Scale factor(s) at which to evaluate the Hubble parameter.
@@ -3280,19 +3301,19 @@ units : str, default='km/s/Mpc'
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">Hubble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="s1">&#39;km/s/Mpc&#39;</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">Hubble</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;km/s/Mpc&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate Hubble parameter at a given scale factor.</span>
 
-<span class="sd">    Computes the Hubble parameter H(a) in the GREA model, including </span>
+<span class="sd">    Computes the Hubble parameter H(a) in the GREA model, including</span>
 <span class="sd">    contributions from matter, radiation, and the entropic acceleration term.</span>
 
 <span class="sd">    The Hubble parameter in GREA is given by:</span>
 
 <span class="sd">    $$H(a) = H_0 \sqrt{\frac{\Omega_m(1 + a_{\text{eq}}/a)}{a^3} + \frac{4\sinh(2\tau(a))}{3a^2[\sinh(2k\eta_0) - 2k\eta_0]}}$$</span>
 
-<span class="sd">    where $H_0 = 100h$ km/s/Mpc, $\tau(a)$ is the dimensionless horizon distance, </span>
-<span class="sd">    and $k\eta_0$ is a model parameter.</span>
+<span class="sd">    where $H_0 = 100h$ km/s/Mpc, $\tau(a)$ is the dimensionless horizon distance,</span>
+<span class="sd">    and $\sqrt{-k}\eta_0$ is a model parameter.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -3306,9 +3327,12 @@ units : str, default='km/s/Mpc'
 <span class="sd">    float or array_like</span>
 <span class="sd">        Hubble parameter at the specified scale factor(s) in the requested units.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">den</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">kappa</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">kappa</span>
-    <span class="n">E</span> <span class="o">=</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aeq</span><span class="o">/</span><span class="n">a</span><span class="p">))</span><span class="o">/</span><span class="n">a</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">)))</span><span class="o">/</span><span class="p">(</span><span class="mf">3.</span><span class="o">*</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">den</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
-    <span class="k">return</span> <span class="mi">100</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">*</span> <span class="n">E</span> <span class="o">*</span> <span class="n">H_units_conv_factor</span><span class="p">[</span><span class="n">units</span><span class="p">]</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">kappa</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Omega_m</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">aeq</span> <span class="o">/</span> <span class="n">a</span><span class="p">))</span> <span class="o">/</span> <span class="n">a</span><span class="o">**</span><span class="mi">3</span>
+        <span class="o">+</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">)))</span> <span class="o">/</span> <span class="p">(</span><span class="mf">3.0</span> <span class="o">*</span> <span class="n">a</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">den</span>
+    <span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mi">100</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span> <span class="o">*</span> <span class="n">E</span> <span class="o">*</span> <span class="n">H_units_conv_factor</span><span class="p">[</span><span class="n">units</span><span class="p">]</span>
 </code></pre></div>
         </details>
     </div>
@@ -3347,9 +3371,11 @@ for numerical integration and interpolation purposes.</p>
 <span class="sd">    Creates a logarithmically spaced array of scale factors from a_min to 0.5</span>
 <span class="sd">    for numerical integration and interpolation purposes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a_min</span><span class="p">),</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Placeholder for tau spline interpolation</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_require_update</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># Flag to indicate if parameters need to be updated</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a_min</span><span class="p">),</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Placeholder for tau spline interpolation</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_require_update</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="kc">False</span>  <span class="c1"># Flag to indicate if parameters need to be updated</span>
+    <span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -3372,7 +3398,7 @@ for numerical integration and interpolation purposes.</p>
     <div class="doc doc-contents ">
 
       <p>Calculate angular diameter distance to redshift z.</p>
-<p>The angular diameter distance is the ratio of an object's physical 
+<p>The angular diameter distance is the ratio of an object's physical
 transverse size to its angular size in radians.</p>
 <h5 id="greapy.grea.GREA.angular_diameter_distance--parameters">Parameters<a class="headerlink" href="#greapy.grea.GREA.angular_diameter_distance--parameters" title="Permanent link">&para;</a></h5>
 <p>z : float or array_like
@@ -3385,11 +3411,11 @@ transverse size to its angular size in radians.</p>
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">angular_diameter_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">angular_diameter_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate angular diameter distance to redshift z.</span>
 
-<span class="sd">    The angular diameter distance is the ratio of an object&#39;s physical </span>
+<span class="sd">    The angular diameter distance is the ratio of an object&#39;s physical</span>
 <span class="sd">    transverse size to its angular size in radians.</span>
 
 <span class="sd">    Parameters</span>
@@ -3406,7 +3432,7 @@ transverse size to its angular size in radians.</p>
 <span class="sd">    -----</span>
 <span class="sd">    Related to comoving distance via $d_A = d_C/(1+z)$.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">z</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">comoving_distance</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -3442,7 +3468,7 @@ values between today (a=1) and the target redshift.</p>
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">comoving_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">comoving_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate comoving distance to redshift z.</span>
 
@@ -3464,8 +3490,8 @@ values between today (a=1) and the target redshift.</p>
 <span class="sd">    In GREA, the comoving distance is proportional to the difference in tau</span>
 <span class="sd">    values between today (a=1) and the target redshift.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">dH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">units</span><span class="o">=</span><span class="s1">&#39;1/Mpc&#39;</span><span class="p">)</span> <span class="c1"># Normalized with correct H(z=0) in Mpc</span>
-    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="p">(</span><span class="mf">1.</span><span class="o">+</span><span class="n">z</span><span class="p">)))</span> <span class="o">*</span> <span class="n">dH</span> 
+    <span class="n">dH</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s2">&quot;1/Mpc&quot;</span><span class="p">)</span>  <span class="c1"># Normalized with correct H(z=0) in Mpc</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">z</span><span class="p">)))</span> <span class="o">*</span> <span class="n">dH</span>
 </code></pre></div>
         </details>
     </div>
@@ -3487,7 +3513,7 @@ values between today (a=1) and the target redshift.</p>
     <div class="doc doc-contents ">
 
       <p>Calculate the speed of sound in the photon-baryon fluid.</p>
-<p>Computes the speed of sound in the primordial photon-baryon fluid 
+<p>Computes the speed of sound in the primordial photon-baryon fluid
 as a function of scale factor.</p>
 <h5 id="greapy.grea.GREA.cs--parameters">Parameters<a class="headerlink" href="#greapy.grea.GREA.cs--parameters" title="Permanent link">&para;</a></h5>
 <p>a : float or array_like
@@ -3502,11 +3528,11 @@ of baryons on the photon-baryon fluid.</p>
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">cs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">cs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the speed of sound in the photon-baryon fluid.</span>
 
-<span class="sd">    Computes the speed of sound in the primordial photon-baryon fluid </span>
+<span class="sd">    Computes the speed of sound in the primordial photon-baryon fluid</span>
 <span class="sd">    as a function of scale factor.</span>
 
 <span class="sd">    Parameters</span>
@@ -3526,8 +3552,8 @@ of baryons on the photon-baryon fluid.</p>
 <span class="sd">    of baryons on the photon-baryon fluid.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># R is the baryon to photon ratio</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_b</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">omega_g</span>
-    <span class="k">return</span> <span class="n">C_KMS</span><span class="o">*</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span> <span class="o">*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">a</span><span class="p">)))</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_b</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_g</span>
+    <span class="k">return</span> <span class="n">C_KMS</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">R</span> <span class="o">*</span> <span class="n">a</span><span class="p">)))</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -3561,7 +3587,7 @@ energy evolves in the GREA model.</p>
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fde</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">fde</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the normalized dark energy density evolution.</span>
 
@@ -3602,8 +3628,8 @@ energy evolves in the GREA model.</p>
 
       <p>Calculate dimensionless horizon distance at scale factor a.</p>
 <p>This function returns the dimensionless horizon distance needed to compute
-the alpha parameter in the GREA model. It's equivalent to tau(a) in this
-implementation.</p>
+the alpha parameter in the GREA model. It's defined as:</p>
+<div class="arithmatex">\[D_H(a) = a \cdot H \cdot \eta(a)\]</div>
 <h5 id="greapy.grea.GREA.horizon_distance--parameters">Parameters<a class="headerlink" href="#greapy.grea.GREA.horizon_distance--parameters" title="Permanent link">&para;</a></h5>
 <p>a : float or array_like
     Scale factor(s) at which to evaluate the horizon distance.</p>
@@ -3613,13 +3639,14 @@ implementation.</p>
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">horizon_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">horizon_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate dimensionless horizon distance at scale factor a.</span>
 
 <span class="sd">    This function returns the dimensionless horizon distance needed to compute</span>
-<span class="sd">    the alpha parameter in the GREA model. It&#39;s equivalent to tau(a) in this</span>
-<span class="sd">    implementation.</span>
+<span class="sd">    the alpha parameter in the GREA model. It&#39;s defined as:</span>
+
+<span class="sd">    $$D_H(a) = a \\cdot H \\cdot \\eta(a)$$</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -3631,7 +3658,7 @@ implementation.</p>
 <span class="sd">    float or array_like</span>
 <span class="sd">        Dimensionless horizon distance at the specified scale factor(s).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Hubble</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">h</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -3668,7 +3695,7 @@ from early times to the specified redshift.</p>
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">rs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">z</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">rs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the sound horizon at redshift z.</span>
 
@@ -3691,7 +3718,7 @@ from early times to the specified redshift.</p>
 <span class="sd">    Computed by integrating the sound speed divided by the expansion rate</span>
 <span class="sd">    from early times to the specified redshift.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">quad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rs_integrand</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">z</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">quad</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_rs_integrand</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
 </code></pre></div>
         </details>
     </div>
@@ -3729,7 +3756,7 @@ The initial condition is set at the minimum scale factor.</p>
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate tau parameter as a function of scale factor.</span>
 
@@ -3753,7 +3780,7 @@ The initial condition is set at the minimum scale factor.</p>
 <span class="sd">    a spline interpolation for efficient evaluation at arbitrary scale factors.</span>
 <span class="sd">    The initial condition is set at the minimum scale factor.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tau</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -3793,7 +3820,7 @@ for a dynamical dark energy component.</p>
 
         <details class="quote">
           <summary>Source code in <code>greapy/grea.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">w</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">a</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">w</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the effective equation of state parameter.</span>
 
@@ -3822,7 +3849,11 @@ for a dynamical dark energy component.</p>
 <span class="sd">    This differs from the constant w=-1 of a cosmological constant and allows</span>
 <span class="sd">    for a dynamical dark energy component.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">w</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">a</span> <span class="o">*</span> <span class="n">coth</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="o">.</span><span class="n">derivative</span><span class="p">()(</span><span class="n">a</span><span class="p">))</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="mi">1</span>
+        <span class="o">/</span> <span class="mi">3</span>
+        <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">coth</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau_spline</span><span class="o">.</span><span class="n">derivative</span><span class="p">()(</span><span class="n">a</span><span class="p">))</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">w</span>
 </code></pre></div>
         </details>
@@ -3879,7 +3910,7 @@ for a dynamical dark energy component.</p>
 <span class="sd">    float or array_like</span>
 <span class="sd">        Hyperbolic cotangent of x</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sinh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
