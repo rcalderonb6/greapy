@@ -33,7 +33,8 @@ all = [
 ]
 
 extra = [
-# "cobaya"
+"matplotlib",
+"cobaya",
 ]
 
 

@@ -13,7 +13,3 @@
 -   Free software: MIT License
 -   Documentation: <https://rcalderonb6.github.io/greapy>
     
-
-<!-- ## Features
-
--   TODO -->
