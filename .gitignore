@@ -107,3 +107,5 @@ ENV/
 .vscode/
 
 .DS_Store
+
+input/*.yaml
