@@ -43,10 +43,10 @@ class GREA:
     h : float, default=0.6736
         Dimensionless Hubble parameter (H0/(100 km/s/Mpc)).
 
-    Omega_m : float, default=0.315
-        Fractional matter density (Ωₘ) today (z=0).
+    omega_cdm : float, default=0.12
+        Physical cold dark matter density (Ωc x h²).
 
-    omega_b : float, default=0.002237
+    omega_b : float, default=0.02237
         Physical baryon density parameter (Ωb x h²).
 
     kappa : float, default=3.55
@@ -69,8 +69,8 @@ class GREA:
     """
 
     h: float = 0.6736  # Dimensionless Hubble parameter
-    Omega_m: float = 0.315  # Fractional matter density (Ω_m) today (z=0)
-    omega_b: float = 0.002237  # Physical baryon density (Ω_b * h^2)
+    omega_cdm: float = 0.12  # Fractional matter density (Ω_m) today (z=0)
+    omega_b: float = 0.02237  # Physical baryon density (Ω_b * h^2)
     kappa: float = 3.55
     omega_g: float = 0.0000247739  # Physical density of photons (Ω_g * h^2)
     Neff: float = 3.044  # Effective number of neutrino species
@@ -177,10 +177,11 @@ class GREA:
     def _tau(self, a):
         if self.tau_spline is None or self._require_update:
             y0 = [self.a[0] / np.sqrt(self.Omega_g + self.Omega_nu)]
-            theta = (self.Omega_m, self.kappa, self.aeq)
+            theta = (self.Omega_bc, self.kappa, self.aeq)
             self.tau_spline = UnivariateSpline(
                 self.a, odeint(self._system, y0, self.a, args=theta), s=0
             )
+            self._require_update = False
         return self.tau_spline(a)
 
     def Hubble(self, a, units="km/s/Mpc"):
@@ -211,7 +212,7 @@ class GREA:
         """
         den = np.sinh(2 * self.kappa) - 2 * self.kappa
         E = (
-            (self.Omega_m * (1 + self.aeq / a)) / a**3
+            (self.Omega_bc * (1 + self.aeq / a)) / a**3
             + (4 * np.sinh(2 * self.tau(a))) / (3.0 * a**2) / den
         ) ** (0.5)
         return 100 * self.h * E * H_units_conv_factor[units]
@@ -457,12 +458,12 @@ class GREA:
             The scale factor at which the energy densities of matter and radiation
             are equal. This is a key epoch in cosmic history.
         """
-        return (self.Omega_g + self.Omega_nu) / self.Omega_m
+        return (self.Omega_g + self.Omega_nu) / self.Omega_bc
 
     @property
-    def omega_cdm(self) -> float:
+    def omega_bc(self) -> float:
         """
-        Physical cold dark matter density parameter.
+        Physical baryonic and cold dark matter density parameter.
 
         Returns
         -------
@@ -470,7 +471,33 @@ class GREA:
             The physical cold dark matter density parameter ωcdm = Ωcdm * h².
             Calculated by subtracting baryonic density from total matter density.
         """
-        return self.Omega_m * self.h**2 - self.omega_b
+        return self.omega_b + self.omega_cdm
+
+    @property
+    def Omega_bc(self) -> float:
+        """
+        Fractional cold dark matter and baryonic density parameter.
+
+        Returns
+        -------
+        float
+            The fractional cold dark matter density parameter ωcb = (Ωcdm+Ωb) * h².
+            Calculated by adding cold dark matter and baryonic densities.
+        """
+        return self.omega_bc / self.h**2
+
+    @property
+    def Omega_m(self) -> float:
+        """
+        Fractional matter density parameter today.
+
+        Returns
+        -------
+        float
+            The fractional cold dark matter density parameter ωcdm = Ωcdm * h².
+            Calculated by subtracting baryonic density from total matter density.
+        """
+        return self.omega_bc / (self.H0 / 100) ** 2
 
     @property
     def Omega_g(self) -> float:
@@ -557,7 +584,7 @@ class GREA:
             when photons decoupled from the baryon-photon plasma.
             Calculated using fitting formulae dependent on cosmological parameters.
         """
-        return approx.zCMB(self.Omega_m * self.h**2, self.omega_b)
+        return approx.zCMB(self.omega_bc, self.omega_b)
 
     @property
     def z_drag(self) -> float:
@@ -571,7 +598,7 @@ class GREA:
             from the Compton drag of photons. This typically occurs at slightly
             lower redshift than recombination and is relevant for BAO measurements.
         """
-        return approx.zdrag(self.Omega_m * self.h**2, self.omega_b)
+        return approx.zdrag(self.omega_bc, self.omega_b)
 
     @property
     def rdrag(self) -> float:
@@ -612,6 +639,10 @@ class GREA:
             cosmological observable for parameter constraints.
         """
         return self.rs_rec / self.comoving_distance(self.z_rec)
+
+    @property
+    def H0(self):
+        return self.H(0)
 
 
 def coth(x):
