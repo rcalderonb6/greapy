@@ -102,7 +102,7 @@ def table(
         help="Transpose table (datasets as rows, parameters as columns)",
     ),
     skip: float = typer.Option(
-        0.3, "--skip", "-s", help="Fraction of the chain to ignore as burnin"
+        0.3, "--skip", "-s", help="Fraction of the chain to ignore as burn in"
     ),
 ):
     """Generate a JCAP-style LaTeX table comparing parameter constraints from multiple MCMC chains."""
