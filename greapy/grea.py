@@ -17,9 +17,7 @@ from scipy.integrate import odeint, quad
 from scipy.interpolate import UnivariateSpline
 
 from greapy import approximations as approx
-
-# Physical constants
-C_KMS: float = 299792.458  # Speed of light in km/s
+from greapy.common import C_KMS
 
 # Unit conversion factors
 H_units_conv_factor: dict[str, float] = {
@@ -69,9 +67,9 @@ class GREA:
     """
 
     h: float = 0.6736  # Dimensionless Hubble parameter
-    omega_cdm: float = 0.12  # Fractional matter density (Ω_m) today (z=0)
+    omega_cdm: float = 0.12  # Physical cold dark matter density (Ω_c * h^2)
     omega_b: float = 0.02237  # Physical baryon density (Ω_b * h^2)
-    kappa: float = 3.55
+    kappa: float = 3.55  # Curvature scale parameter (√-k * η₀)
     omega_g: float = 0.0000247739  # Physical density of photons (Ω_g * h^2)
     Neff: float = 3.044  # Effective number of neutrino species
 
@@ -489,13 +487,13 @@ class GREA:
     @property
     def Omega_m(self) -> float:
         """
-        Fractional matter density parameter today.
+        Fractional matter density parameter today. This is computed as:
+        $$\Omega_m = (\omega_{b}+\omega_{cdm})/h^2 $$
 
         Returns
         -------
         float
-            The fractional cold dark matter density parameter ωcdm = Ωcdm * h².
-            Calculated by subtracting baryonic density from total matter density.
+            The fractional matter density parameter today.
         """
         return self.omega_bc / (self.H0 / 100) ** 2
 
