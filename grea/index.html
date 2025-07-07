@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="../assets/favicon.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
@@ -2263,7 +2263,6 @@ comoving distances, sound horizon, and equations of state.</p>
 
 
 
-
   <div class="doc doc-object doc-class">
 
 
@@ -2349,9 +2348,9 @@ cosmic epochs.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">h</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.6736</span>  <span class="c1"># Dimensionless Hubble parameter</span>
-    <span class="n">omega_cdm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.12</span>  <span class="c1"># Fractional matter density (Ω_m) today (z=0)</span>
+    <span class="n">omega_cdm</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.12</span>  <span class="c1"># Physical cold dark matter density (Ω_c * h^2)</span>
     <span class="n">omega_b</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.02237</span>  <span class="c1"># Physical baryon density (Ω_b * h^2)</span>
-    <span class="n">kappa</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.55</span>
+    <span class="n">kappa</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.55</span>  <span class="c1"># Curvature scale parameter (√-k * η₀)</span>
     <span class="n">omega_g</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0000247739</span>  <span class="c1"># Physical density of photons (Ω_g * h^2)</span>
     <span class="n">Neff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.044</span>  <span class="c1"># Effective number of neutrino species</span>
 
@@ -2769,13 +2768,13 @@ cosmic epochs.</p>
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">Omega_m</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fractional matter density parameter today.</span>
+<span class="sd">        Fractional matter density parameter today. This is computed as:</span>
+<span class="sd">        $$\Omega_m = (\omega_{b}+\omega_{cdm})/h^2 $$</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
-<span class="sd">            The fractional cold dark matter density parameter ωcdm = Ωcdm * h².</span>
-<span class="sd">            Calculated by subtracting baryonic density from total matter density.</span>
+<span class="sd">            The fractional matter density parameter today.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_bc</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">H0</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
 
@@ -3006,11 +3005,11 @@ cosmic epochs.</p>
 
     <div class="doc doc-contents ">
 
-      <p>Fractional matter density parameter today.</p>
+      <p>Fractional matter density parameter today. This is computed as:
+$$\Omega_m = (\omega_{b}+\omega_{cdm})/h^2 $$</p>
 <h5 id="greapy.grea.GREA.Omega_m--returns">Returns<a class="headerlink" href="#greapy.grea.GREA.Omega_m--returns" title="Permanent link">&para;</a></h5>
 <p>float
-    The fractional cold dark matter density parameter ωcdm = Ωcdm * h².
-    Calculated by subtracting baryonic density from total matter density.</p>
+    The fractional matter density parameter today.</p>
     </div>
 
   </div>
@@ -4180,7 +4179,7 @@ for a dynamical dark energy component.</p>
       <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      <script src="../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       
