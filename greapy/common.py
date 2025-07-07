@@ -119,7 +119,7 @@ def get_dV_rs(z, cosmo):
         if isinstance(cosmo, GREA)
         else lambda z: cosmo.comoving_distance(z).value
     )
-    dH = c_km_s / H(z)
+    dH = C_KMS / H(z)
     dV = (z * dH * dM(z) ** 2) ** (1 / 3)
     return dV / rd
 
@@ -133,7 +133,7 @@ def get_F_AP(z, cosmo):
         if isinstance(cosmo, GREA)
         else lambda z: cosmo.comoving_distance(z).value
     )
-    return dM(z) * H(z) / c_km_s
+    return dM(z) * H(z) / C_KMS
 
 
 def get_Mb_from_H0(H0, Mb_fid=-19.25, H0_fid=73.05):

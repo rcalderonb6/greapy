@@ -466,8 +466,8 @@ class GREA:
         Returns
         -------
         float
-            The physical cold dark matter density parameter ωcdm = Ωcdm * h².
-            Calculated by subtracting baryonic density from total matter density.
+            The physical cold dark matter + baryon density parameter ωcb = (Ωcdm+ Ωb) * h².
+            Calculated by summing the baryonic and cold dark matter (physical) densities.
         """
         return self.omega_b + self.omega_cdm
 
