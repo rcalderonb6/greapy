@@ -24,8 +24,8 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  uv pip install --user --no-cache-dir Cython
-                  uv pip install --user -r requirements.txt -r requirements_dev.txt
+                  uv pip install --no-cache-dir Cython
+                  uv pip install -r requirements.txt -r requirements_dev.txt
             - name: Discover typos with codespell
               run: |
                   codespell --skip="*.csv,*.geojson,*.json,*.js,*.html,*cff,*.ipynb,./.git" --ignore-words-list="aci,hist"
