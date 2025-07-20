@@ -28,3 +28,4 @@ sphinx
 twine
 watchdog
 wheel
+scienceplots
