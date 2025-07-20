@@ -464,7 +464,7 @@ def fig8_bis(
 
 
 def addCPL(z, chain, legend=False, axs=None):
-    """
+    r"""
     Add the 1 and 2 sigma bounds on w(z) and f_de(z) for a given chain of CPL parameters, \[w_0\] and \[w_a\].
     """
     a = 1.0 / (1.0 + z)
