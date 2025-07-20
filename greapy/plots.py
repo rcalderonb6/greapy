@@ -515,22 +515,22 @@ def plot_distances(z, model):
         figsize=(8, 6),
         gridspec_kw={"height_ratios": [1, 3, 1], "hspace": 0.1},
     )
-    ax_obs.plot([], [], label="$\Lambda$CDM", color="k", linestyle="--", lw=1)
+    ax_obs.plot([], [], label=r"$\Lambda$CDM", color="k", linestyle="--", lw=1)
 
     for m, kwargs in zip(
         [model, lcdm], [{"lw": 2}, {"linestyle": "--", "c": "k", "lw": 1.0}]
     ):
         ax_H.plot(z, m.H(z) / lcdm.H(z).value, **kwargs)
         ax_obs.plot(
-            z, m.comoving_distance(z), label="Comoving Distance $D_M(z)$", **kwargs
+            z, m.comoving_distance(z), label=r"Comoving Distance $D_M(z)$", **kwargs
         )
         ax_obs.plot(
-            z, m.luminosity_distance(z), label="Luminosity Distance $D_L(z)$", **kwargs
+            z, m.luminosity_distance(z), label=r"Luminosity Distance $D_L(z)$", **kwargs
         )
         ax_obs.plot(
             z,
             m.angular_diameter_distance(z),
-            label="Angular Diameter Distance $D_A(z)$",
+            label=r"Angular Diameter Distance $D_A(z)$",
             **kwargs,
         )
         if m is model:
@@ -541,7 +541,7 @@ def plot_distances(z, model):
     ax_H.set_ylabel(r"$H/H^{\Lambda\rm CDM}$", fontsize="x-large")
     ax_obs.set_ylabel("Distances [Mpc]", fontsize="x-large")
     ax_res.set_ylabel(r"$D/D^{\Lambda\rm CDM}$", fontsize="x-large")
-    ax_res.set_xlabel("Redshift $z$", fontsize="x-large")
+    ax_res.set_xlabel(r"Redshift $z$", fontsize="x-large")
     return plt.gca()
 
 
