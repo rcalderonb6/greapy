@@ -83,14 +83,14 @@ nav:
     - Home: index.md
     - Installation: installation.md
     - Usage: usage.md
-    # - Contributing: contributing.md
-    # - FAQ: faq.md
-    # - Changelog: changelog.md
     # - Playground: playground.md
-    - Report Issues: https://github.com/rcalderonb6/greapy/issues
     - Examples:
         - examples/intro.ipynb
         - examples/sampling.ipynb
     - API Reference:
           - GREA module: grea.md
         #   - common module: common.md
+    - Report Issues: https://github.com/rcalderonb6/greapy/issues
+    # - Contributing: contributing.md
+    # - FAQ: faq.md
+    # - Changelog: changelog.md
