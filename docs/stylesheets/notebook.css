@@ -1,0 +1,37 @@
+/* Hide import cells in notebooks */
+.jp-InputArea .jp-InputPrompt + .jp-CodeMirrorEditor .CodeMirror-line:first-child:contains("import") {
+    display: none;
+}
+
+/* Hide cells with matplotlib setup */
+.jp-Cell:has(.jp-CodeMirrorEditor:contains("%matplotlib inline")) {
+    display: none;
+}
+
+/* Alternative: Hide specific code patterns */
+.highlight:has(code:contains("import matplotlib")) {
+    display: none;
+}
+
+/* Hide notebook cells with specific comments */
+.highlight:has(code:contains("# Setup matplotlib")) {
+    display: none;
+}
+
+/* Show/hide toggle for code cells */
+.notebook-toggle {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.notebook-toggle:hover {
+    background: #e0e0e0;
+}
+
+/* Initially hide import cells */
+.imports-hidden .highlight:has(code:contains("import")) {
+    display: none;
+}
