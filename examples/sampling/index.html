@@ -1190,7 +1190,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ed401d97">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=b834da73">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1208,13 +1208,50 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mpl</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'mathtext.fontset'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'stix'</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'STIXGeneral'</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'axes.unicode_minus'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'text.usetex'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># Set to True if you have LaTeX installed</span>
+</pre></div>
+<div class="clipboard-copy-txt" id="cell-1">%matplotlib inline
+import matplotlib as mpl
+mpl.rcParams['mathtext.fontset'] = 'stix'
+mpl.rcParams['font.family'] = 'STIXGeneral'
+mpl.rcParams['axes.unicode_minus'] = False
+mpl.rcParams['text.usetex'] = False  # Set to True if you have LaTeX installed</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=ed401d97">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="CodeMirror cm-s-jupyter">
+<div class="zeroclipboard-container">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
+<div>
+<span class="notice" hidden="">Copied!</span>
+<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
+<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+</clipboard-copy>
+</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">info</span><span class="o">=</span><span class="p">{}</span>
 <span class="n">info</span><span class="p">[</span><span class="s1">'theory'</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s1">'greapy.cobaya.GREA'</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
 
 <span class="n">info</span><span class="p">[</span><span class="s1">'sampler'</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'mcmc'</span><span class="p">:</span> <span class="p">{</span><span class="s1">'Rminus1_stop'</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span><span class="s1">'Rminus1_cl_stop'</span><span class="p">:</span><span class="mf">0.5</span><span class="p">,</span><span class="s1">'max_tries'</span><span class="p">:</span><span class="mi">5_000</span><span class="p">}}</span>
 <span class="n">info</span><span class="p">[</span><span class="s1">'output'</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-1">info={}
+<div class="clipboard-copy-txt" id="cell-2">info={}
 info['theory']={'greapy.cobaya.GREA': None}
 
 info['sampler'] = {'mcmc': {'Rminus1_stop':0.1,'Rminus1_cl_stop':0.5,'max_tries':5_000}}
@@ -1241,10 +1278,10 @@ info['output'] = None</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-2">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -1256,7 +1293,7 @@ info['output'] = None</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">info</span><span class="p">[</span><span class="s1">'likelihood'</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s1">'bao.desi_2024_bao_all'</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">info['likelihood']={'bao.desi_2024_bao_all': None}</div>
+<div class="clipboard-copy-txt" id="cell-3">info['likelihood']={'bao.desi_2024_bao_all': None}</div>
 </div>
 </div>
 </div>
@@ -1279,10 +1316,10 @@ info['output'] = None</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-3">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -1307,7 +1344,7 @@ info['output'] = None</div>
     <span class="s1">'Neff'</span><span class="p">:</span> <span class="mf">3.044</span>
     <span class="p">}</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-3">info['params']={
+<div class="clipboard-copy-txt" id="cell-4">info['params']={
     # Sampled parameters
     'h': {'prior': [0.6, 0.8], 'latex': r'$h$'},
     'omega_cdm': {'prior': [0.1, 0.5], 'latex': r'$\omega_{\rm cdm}$'},
@@ -1343,10 +1380,10 @@ info['output'] = None</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-4">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -1359,7 +1396,7 @@ info['output'] = None</div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">cobaya.run</span><span class="w"> </span><span class="kn">import</span> <span class="n">run</span>
 <span class="n">updated_info</span><span class="p">,</span> <span class="n">sampler</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">from cobaya.run import run
+<div class="clipboard-copy-txt" id="cell-5">from cobaya.run import run
 updated_info, sampler = run(info)</div>
 </div>
 </div>
@@ -1393,7 +1430,7 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Initial point: h:0.7367566, omega_cdm:0.2916805, omega_b:0.0321663, kappa:2.914486
+<pre>[mcmc] Initial point: h:0.7787223, omega_cdm:0.1523344, omega_b:0.08195623, kappa:3.865423
 </pre>
 </div>
 </div>
@@ -1407,7 +1444,7 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[model] Setting measured speeds (per sec): {bao.desi_2024_bao_all: 2270.0, greapy.cobaya.GREA: 155.0}
+<pre>[model] Setting measured speeds (per sec): {bao.desi_2024_bao_all: 2270.0, greapy.cobaya.GREA: 124.0}
 </pre>
 </div>
 </div>
@@ -1435,7 +1472,7 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Progress @ 2025-07-20 12:47:50 : 1 steps taken, and 0 accepted.
+<pre>[mcmc] Progress @ 2025-07-20 13:08:52 : 1 steps taken, and 0 accepted.
 </pre>
 </div>
 </div>
@@ -1449,14 +1486,14 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.016
+<pre>[mcmc]  - Acceptance rate: 0.013
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 12.802257 after 128 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 5.137915 after 128 accepted steps
 </pre>
 </div>
 </div>
@@ -1477,14 +1514,14 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.037
+<pre>[mcmc]  - Acceptance rate: 0.031
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 2.534292 after 256 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 5.227502 after 256 accepted steps
 </pre>
 </div>
 </div>
@@ -1505,14 +1542,14 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.064
+<pre>[mcmc]  - Acceptance rate: 0.059
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.193306 after 384 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 1.431150 after 384 accepted steps
 </pre>
 </div>
 </div>
@@ -1533,14 +1570,14 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.102
+<pre>[mcmc]  - Acceptance rate: 0.112
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.334308 after 512 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 0.682319 after 512 accepted steps
 </pre>
 </div>
 </div>
@@ -1561,14 +1598,14 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.195
+<pre>[mcmc]  - Acceptance rate: 0.288
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.917420 after 640 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 0.141024 after 640 accepted steps
 </pre>
 </div>
 </div>
@@ -1589,14 +1626,14 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.193
+<pre>[mcmc]  - Acceptance rate: 0.265
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.454849 after 768 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 0.103926 after 768 accepted steps
 </pre>
 </div>
 </div>
@@ -1604,13 +1641,6 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>[mcmc]  - Updated covariance matrix of proposal pdf.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Progress @ 2025-07-20 12:48:50 : 14706 steps taken, and 1116 accepted.
 </pre>
 </div>
 </div>
@@ -1624,14 +1654,14 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.190
+<pre>[mcmc]  - Acceptance rate: 0.249
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.401691 after 896 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 0.091150 after 896 accepted steps
 </pre>
 </div>
 </div>
@@ -1639,6 +1669,13 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>[mcmc]  - Updated covariance matrix of proposal pdf.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc] Progress @ 2025-07-20 13:09:52 : 15792 steps taken, and 1141 accepted.
 </pre>
 </div>
 </div>
@@ -1652,133 +1689,21 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.186
+<pre>[mcmc]  - Acceptance rate: 0.242
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.178750 after 1024 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 0.050239 after 1024 accepted steps
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Updated covariance matrix of proposal pdf.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Learn + convergence test @ 1440 samples accepted.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.180
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.111665 after 1152 accepted steps
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Updated covariance matrix of proposal pdf.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Learn + convergence test @ 1600 samples accepted.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.176
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.155413 after 1280 accepted steps
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Updated covariance matrix of proposal pdf.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Learn + convergence test @ 1760 samples accepted.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.176
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.070003 after 1408 accepted steps
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Updated covariance matrix of proposal pdf.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Learn + convergence test @ 1920 samples accepted.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.174
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.059014 after 1536 accepted steps
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of bounds: R-1 = 0.152750 after 1920 accepted steps
+<pre>[mcmc]  - Convergence of bounds: R-1 = 0.181658 after 1280 accepted steps
 </pre>
 </div>
 </div>
@@ -1792,7 +1717,7 @@ updated_info, sampler = run(info)</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Sampling complete after 1920 accepted steps.
+<pre>[mcmc] Sampling complete after 1280 accepted steps.
 </pre>
 </div>
 </div>
@@ -1805,10 +1730,10 @@ updated_info, sampler = run(info)</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -1826,7 +1751,7 @@ updated_info, sampler = run(info)</div>
 <span class="n">gdplot</span> <span class="o">=</span> <span class="n">gdplt</span><span class="o">.</span><span class="n">get_subplot_plotter</span><span class="p">()</span>
 <span class="n">gdplot</span><span class="o">.</span><span class="n">triangle_plot</span><span class="p">(</span><span class="n">dr1_samples</span><span class="p">,</span> <span class="p">[</span><span class="s2">"H0"</span><span class="p">,</span><span class="s2">"Omega_m"</span><span class="p">,</span> <span class="s2">"kappa"</span><span class="p">,</span><span class="s2">"alpha"</span><span class="p">],</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5"># Export the results to GetDist
+<div class="clipboard-copy-txt" id="cell-6"># Export the results to GetDist
 dr1_samples= sampler.products(to_getdist=True,skip_samples=0.3)["sample"]
 
 import getdist.plots as gdplt
@@ -1844,7 +1769,7 @@ gdplot.triangle_plot(dr1_samples, ["H0","Omega_m", "kappa","alpha"], filled=True
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[root] *WARNING* outlier fraction 0.060267857142857144 
+<pre>[root] *WARNING* outlier fraction 0.10267857142857142 
 </pre>
 </div>
 </div>
@@ -1868,10 +1793,10 @@ gdplot.triangle_plot(dr1_samples, ["H0","Omega_m", "kappa","alpha"], filled=True
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -1885,7 +1810,7 @@ gdplot.triangle_plot(dr1_samples, ["H0","Omega_m", "kappa","alpha"], filled=True
 <span class="n">dr2_info</span><span class="p">[</span><span class="s1">'likelihood'</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s1">'bao.desi_dr2'</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span> <span class="c1"># Update likelihood to DESI DR2</span>
 <span class="n">updated_dr2_info</span><span class="p">,</span> <span class="n">dr2_sampler</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">dr2_info</span><span class="p">)</span> <span class="c1"># Start the sampling</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6">dr2_info=info.copy() # Copy run settings from DR1
+<div class="clipboard-copy-txt" id="cell-7">dr2_info=info.copy() # Copy run settings from DR1
 dr2_info['likelihood']={'bao.desi_dr2': None} # Update likelihood to DESI DR2
 updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 </div>
@@ -1920,7 +1845,7 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Initial point: h:0.7448994, omega_cdm:0.3555781, omega_b:0.06319826, kappa:4.588795
+<pre>[mcmc] Initial point: h:0.7747224, omega_cdm:0.467126, omega_b:0.06774261, kappa:4.07094
 </pre>
 </div>
 </div>
@@ -1934,7 +1859,7 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[model] Setting measured speeds (per sec): {bao.desi_dr2: 2240.0, greapy.cobaya.GREA: 103.0}
+<pre>[model] Setting measured speeds (per sec): {bao.desi_dr2: 2140.0, greapy.cobaya.GREA: 103.0}
 </pre>
 </div>
 </div>
@@ -1962,7 +1887,14 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Progress @ 2025-07-20 12:49:13 : 1 steps taken, and 0 accepted.
+<pre>[mcmc] Progress @ 2025-07-20 13:09:57 : 1 steps taken, and 0 accepted.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc] Progress @ 2025-07-20 13:10:57 : 18140 steps taken, and 137 accepted.
 </pre>
 </div>
 </div>
@@ -1976,14 +1908,14 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.007
+<pre>[mcmc]  - Acceptance rate: 0.006
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 2.560805 after 128 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 0.741229 after 128 accepted steps
 </pre>
 </div>
 </div>
@@ -1997,13 +1929,6 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Progress @ 2025-07-20 12:50:13 : 19839 steps taken, and 242 accepted.
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>[mcmc] Learn + convergence test @ 320 samples accepted.
 </pre>
 </div>
@@ -2011,14 +1936,14 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.018
+<pre>[mcmc]  - Acceptance rate: 0.017
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 3.982660 after 256 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 3.964595 after 256 accepted steps
 </pre>
 </div>
 </div>
@@ -2039,14 +1964,14 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.036
+<pre>[mcmc]  - Acceptance rate: 0.032
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.681263 after 384 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 0.853664 after 384 accepted steps
 </pre>
 </div>
 </div>
@@ -2067,14 +1992,14 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.063
+<pre>[mcmc]  - Acceptance rate: 0.067
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.791901 after 512 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 2.764351 after 512 accepted steps
 </pre>
 </div>
 </div>
@@ -2095,14 +2020,14 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.160
+<pre>[mcmc]  - Acceptance rate: 0.232
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.085828 after 640 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 0.905753 after 640 accepted steps
 </pre>
 </div>
 </div>
@@ -2123,21 +2048,224 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Acceptance rate: 0.164
+<pre>[mcmc]  - Acceptance rate: 0.216
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of means: R-1 = 0.093352 after 768 accepted steps
+<pre>[mcmc]  - Convergence of means: R-1 = 0.470558 after 768 accepted steps
 </pre>
 </div>
 </div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc]  - Convergence of bounds: R-1 = 0.152691 after 960 accepted steps
+<pre>[mcmc]  - Updated covariance matrix of proposal pdf.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc] Learn + convergence test @ 1120 samples accepted.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Acceptance rate: 0.208
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Convergence of means: R-1 = 0.332659 after 896 accepted steps
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Updated covariance matrix of proposal pdf.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc] Learn + convergence test @ 1280 samples accepted.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Acceptance rate: 0.192
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Convergence of means: R-1 = 0.353372 after 1024 accepted steps
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Updated covariance matrix of proposal pdf.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc] Learn + convergence test @ 1440 samples accepted.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Acceptance rate: 0.189
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Convergence of means: R-1 = 0.116752 after 1152 accepted steps
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Updated covariance matrix of proposal pdf.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc] Learn + convergence test @ 1600 samples accepted.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Acceptance rate: 0.183
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Convergence of means: R-1 = 0.160166 after 1280 accepted steps
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Updated covariance matrix of proposal pdf.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc] Learn + convergence test @ 1760 samples accepted.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Acceptance rate: 0.180
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Convergence of means: R-1 = 0.101472 after 1408 accepted steps
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Updated covariance matrix of proposal pdf.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc] Learn + convergence test @ 1920 samples accepted.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Acceptance rate: 0.176
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Convergence of means: R-1 = 0.044578 after 1536 accepted steps
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Updated covariance matrix of proposal pdf.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc] Progress @ 2025-07-20 13:11:57 : 31541 steps taken, and 2068 accepted.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc] Learn + convergence test @ 2080 samples accepted.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Acceptance rate: 0.174
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Convergence of means: R-1 = 0.034533 after 1664 accepted steps
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>[mcmc]  - Convergence of bounds: R-1 = 0.173559 after 2080 accepted steps
 </pre>
 </div>
 </div>
@@ -2151,7 +2279,7 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[mcmc] Sampling complete after 960 accepted steps.
+<pre>[mcmc] Sampling complete after 2080 accepted steps.
 </pre>
 </div>
 </div>
@@ -2164,10 +2292,10 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -2182,7 +2310,7 @@ updated_dr2_info, dr2_sampler = run(dr2_info) # Start the sampling</div>
 <span class="n">gdplot</span> <span class="o">=</span> <span class="n">gdplt</span><span class="o">.</span><span class="n">get_subplot_plotter</span><span class="p">()</span>
 <span class="n">gdplot</span><span class="o">.</span><span class="n">triangle_plot</span><span class="p">(</span><span class="n">dr2_samples</span><span class="p">,</span> <span class="p">[</span><span class="s2">"H0"</span><span class="p">,</span><span class="s2">"Omega_m"</span><span class="p">,</span> <span class="s2">"kappa"</span><span class="p">,</span><span class="s2">"alpha"</span><span class="p">],</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">dr2_samples= dr2_sampler.products(to_getdist=True,skip_samples=0.3)["sample"]
+<div class="clipboard-copy-txt" id="cell-8">dr2_samples= dr2_sampler.products(to_getdist=True,skip_samples=0.3)["sample"]
 
 gdplot = gdplt.get_subplot_plotter()
 gdplot.triangle_plot(dr2_samples, ["H0","Omega_m", "kappa","alpha"], filled=True)</div>
@@ -2197,7 +2325,7 @@ gdplot.triangle_plot(dr2_samples, ["H0","Omega_m", "kappa","alpha"], filled=True
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>[root] *WARNING* outlier fraction 0.11904761904761904 
+<pre>[root] *WARNING* outlier fraction 0.046703296703296704 
 </pre>
 </div>
 </div>
@@ -2221,10 +2349,10 @@ gdplot.triangle_plot(dr2_samples, ["H0","Omega_m", "kappa","alpha"], filled=True
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -2237,7 +2365,7 @@ gdplot.triangle_plot(dr2_samples, ["H0","Omega_m", "kappa","alpha"], filled=True
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">gdplot</span> <span class="o">=</span> <span class="n">gdplt</span><span class="o">.</span><span class="n">get_subplot_plotter</span><span class="p">()</span>
 <span class="n">gdplot</span><span class="o">.</span><span class="n">triangle_plot</span><span class="p">([</span><span class="n">dr1_samples</span><span class="p">,</span><span class="n">dr2_samples</span><span class="p">],</span> <span class="p">[</span><span class="s2">"H0"</span><span class="p">,</span><span class="s2">"Omega_m"</span><span class="p">,</span> <span class="s2">"kappa"</span><span class="p">,</span><span class="s2">"alpha"</span><span class="p">],</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">legend_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"DESI DR1"</span><span class="p">,</span><span class="s2">"DESI DR2"</span><span class="p">],</span> <span class="n">legend_loc</span><span class="o">=</span><span class="s1">'upper right'</span>  <span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8">gdplot = gdplt.get_subplot_plotter()
+<div class="clipboard-copy-txt" id="cell-9">gdplot = gdplt.get_subplot_plotter()
 gdplot.triangle_plot([dr1_samples,dr2_samples], ["H0","Omega_m", "kappa","alpha"], filled=True, legend_labels=["DESI DR1","DESI DR2"], legend_loc='upper right'  )</div>
 </div>
 </div>
@@ -2253,7 +2381,7 @@ gdplot.triangle_plot([dr1_samples,dr2_samples], ["H0","Omega_m", "kappa","alpha"
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -2265,7 +2393,7 @@ gdplot.triangle_plot([dr1_samples,dr2_samples], ["H0","Omega_m", "kappa","alpha"
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-9"></div>
+<div class="clipboard-copy-txt" id="cell-10"></div>
 </div>
 </div>
 </div>
@@ -2301,7 +2429,7 @@ gdplot.triangle_plot([dr1_samples,dr2_samples], ["H0","Omega_m", "kappa","alpha"
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="July 20, 2025 10:42:16 UTC"><span class="timeago" datetime="2025-07-20T10:42:16+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="July 20, 2025 10:42:16 UTC">2025-07-20</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="July 20, 2025 13:07:59 UTC"><span class="timeago" datetime="2025-07-20T13:07:59+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="July 20, 2025 13:07:59 UTC">2025-07-20</span>
   </span>
 
     
