@@ -84,9 +84,9 @@ nav:
     - Installation: installation.md
     - Usage: usage.md
     # - Playground: playground.md
-    - Examples:
-        - examples/intro.ipynb
-        - examples/sampling.ipynb
+    - Tutorials:
+        - examples/First Steps.ipynb
+        - examples/Sampling with Cobaya.ipynb
     - API Reference:
           - GREA module: grea.md
         #   - common module: common.md
