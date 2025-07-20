@@ -43,8 +43,8 @@ jobs:
                 uv pip install --no-cache-dir Cython
                 uv pip install -r requirements.txt -r requirements_dev.txt
                 uv pip install .
-                cobaya-install bao.desi_2024_bao_all
-                cobaya-install bao.desi_dr2
+                cobaya-install bao.desi_2024_bao_all -p tmp/
+                cobaya-install bao.desi_dr2 -p tmp/
             - name: Discover typos with codespell
               run: codespell --skip="*.csv,*.geojson,*.json,*.js,*.html,*cff,*.pdf,*.ipynb,./.git" --ignore-words-list="aci,acount,hist"
             # - name: PKG-TEST
