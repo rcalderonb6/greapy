@@ -9,6 +9,7 @@ flake8
 ipykernel
 livereload
 mkdocs
+mkdocs-marimo
 mkdocs-git-revision-date-localized-plugin
 mkdocs-git-revision-date-plugin
 mkdocs-jupyter>=0.24.0
