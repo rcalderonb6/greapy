@@ -508,7 +508,7 @@ class GREA:
 
     @property
     def Omega_m(self) -> float:
-        """
+        r"""
         Fractional matter density parameter today. This is computed as:
         $$\Omega_m = (\omega_{b}+\omega_{cdm})/h^2 $$
 
