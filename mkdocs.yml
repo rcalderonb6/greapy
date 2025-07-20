@@ -43,6 +43,7 @@ theme:
 
 plugins:
     - search
+    - marimo
     - mkdocstrings
     - git-revision-date
     - git-revision-date-localized:
@@ -85,9 +86,11 @@ nav:
     # - Contributing: contributing.md
     # - FAQ: faq.md
     # - Changelog: changelog.md
+    # - Playground: playground.md
     - Report Issues: https://github.com/rcalderonb6/greapy/issues
-    # - Examples:
-        # - examples/intro.ipynb
+    - Examples:
+        - examples/intro.ipynb
+        - examples/sampling.ipynb
     - API Reference:
           - GREA module: grea.md
         #   - common module: common.md
