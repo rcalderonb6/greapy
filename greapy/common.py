@@ -30,6 +30,72 @@ def extract_chi2(dataset, path):
     return chi2_values[0]
 
 
+def get_bestfit(dataset, path, parameters=None):
+    """
+    Extract best-fit parameter values from a .minimum.txt file.
+
+    Args:
+        dataset (str): The dataset name (used to construct filename)
+        path (str): The path to the directory containing the .minimum.txt file
+
+    Returns:
+        dict: Dictionary with parameter names as keys and best-fit values as values
+
+    Raises:
+        FileNotFoundError: If the file doesn't exist
+        ValueError: If the file format is invalid
+    """
+    file_path = os.path.join(path, f"{dataset}.minimum.txt")
+
+    try:
+        with open(file_path, "r") as file:
+            lines = file.readlines()
+
+        if len(lines) < 2:
+            raise ValueError("File must contain at least a header and one data row")
+
+        # Parse header (parameter names) - handle potential spacing issues
+        header_line = lines[0].strip()
+        if not header_line.startswith("#"):
+            raise ValueError("First line should be a header starting with '#'")
+
+        # Remove the '#' and split by whitespace, filtering out empty strings
+        header_parts = header_line[1:].split()
+        param_names = [part for part in header_parts if part.strip()]
+
+        # Parse the data row (best-fit values)
+        data_line = lines[1].strip()
+        data_parts = data_line.split()
+        data_values = [part for part in data_parts if part.strip()]
+
+        if len(data_values) != len(param_names):
+            raise ValueError(
+                f"Number of values ({len(data_values)}) doesn't match number of parameters ({len(param_names)})"
+            )
+
+        # Convert values to floats and create dictionary
+        bestfit_dict = {}
+        for param, value_str in zip(param_names, data_values):
+            try:
+                bestfit_dict[param] = float(value_str)
+            except ValueError:
+                raise ValueError(
+                    f"Could not convert '{value_str}' to float for parameter '{param}'"
+                )
+        if parameters:
+            bestfit = (
+                {param: bestfit_dict[param] for param in parameters}
+                if parameters
+                else bestfit_dict
+            )
+        return bestfit
+
+    except FileNotFoundError:
+        raise FileNotFoundError(f"File not found: {file_path}")
+    except Exception as e:
+        raise ValueError(f"Error parsing file {file_path}: {e}")
+
+
 def extract_lnZ(file, path):
     """
     Extract the main logZ value from a .logZ file.
@@ -109,10 +175,9 @@ def get_samples_w_fde(z, chain, samples_fn, param_names, Nsamples=500):
     return samples
 
 
-def get_dV_rs(z, cosmo):
+def get_dV_rs(z, cosmo, rd=147.09):
     from greapy import GREA
 
-    rd = cosmo.rdrag if isinstance(cosmo, GREA) else 147.09
     H = cosmo.H if isinstance(cosmo, GREA) else lambda z: cosmo.H(z).value
     dM = (
         cosmo.comoving_distance
@@ -136,8 +201,61 @@ def get_F_AP(z, cosmo):
     return dM(z) * H(z) / C_KMS
 
 
-def get_Mb_from_H0(H0, Mb_fid=-19.25, H0_fid=73.05):
+def get_Mb_from_H0(H0, Mb_fid=-19.253, H0_fid=73.04):
     return Mb_fid + 5 * np.log10(H0 / H0_fid)
+
+
+def is_monotonic_increasing(a, strict=False):
+    """
+    Check if an array is monotonically increasing.
+
+    This function uses NumPy's built-in functionality to check monotonicity.
+    For NumPy 2.0.0+, it uses numpy.ismonotonic; for older versions,
+    it uses a combination of numpy.diff and numpy.all.
+
+    Parameters
+    ----------
+    a : array_like
+        Input array to check.
+    strict : bool, optional
+        If True, check for strictly monotonically increasing (each element
+        must be greater than the previous). If False (default), check for
+        monotonically increasing (each element must be greater than or equal
+        to the previous).
+
+    Returns
+    -------
+    bool
+        True if the array is monotonically increasing, False otherwise.
+
+    Examples
+    --------
+    >>> is_monotonic_increasing([1, 2, 3, 4])
+    True
+    >>> is_monotonic_increasing([1, 2, 2, 3])
+    True
+    >>> is_monotonic_increasing([1, 2, 2, 3], strict=True)
+    False
+    >>> is_monotonic_increasing([1, 3, 2, 4])
+    False
+    """
+    a = np.asarray(a)
+
+    if a.size <= 1:
+        return True
+
+    # Check if numpy.ismonotonic is available (NumPy 2.0.0+)
+    if hasattr(np, "ismonotonic"):
+        if strict:
+            return np.ismonotonic(a, increasing=True, strict=True)
+        else:
+            return np.ismonotonic(a, increasing=True, strict=False)
+    else:
+        # Fall back to older method for compatibility
+        if strict:
+            return np.all(np.diff(a) > 0)
+        else:
+            return np.all(np.diff(a) >= 0)
 
 
 # def get_bestfit(file):

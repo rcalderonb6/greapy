@@ -72,8 +72,8 @@ class GREA:
     kappa: float = 3.55  # Curvature scale parameter (√-k * η₀)
     omega_g: float = 0.0000247739  # Physical density of photons (Ω_g * h^2)
     Neff: float = 3.044  # Effective number of neutrino species
-
     a_min: float = 1e-11  # Minimum scale factor for integration
+    # perturbed: bool = False
 
     def __post_init__(self):
         """
@@ -87,6 +87,8 @@ class GREA:
         self._require_update = (
             False  # Flag to indicate if parameters need to be updated
         )
+
+        # self._perturbed = self.perturbed  # Flag to indicate if the model is perturbed
 
     # def _display_(self):
     #     """Display the current cosmological parameters."""
@@ -237,6 +239,26 @@ class GREA:
         Converts redshift to scale factor via a = 1/(1+z) and calls Hubble(a).
         """
         return self.Hubble(1 / (1 + z))
+
+    def luminosity_distance(self, z):
+        r"""
+        Calculate luminosity distance to redshift z.
+
+        The luminosity distance is defined as the distance that would give
+        the same observed flux for a standard candle as the actual flux
+        received from the source.
+
+        Parameters
+        ----------
+        z : float or array_like
+            Redshift(s) to calculate distance to.
+
+        Returns
+        -------
+        float or array_like
+            Luminosity distance in Mpc.
+        """
+        return self.comoving_distance(z) * (1 + z)
 
     def angular_diameter_distance(self, z):
         r"""
