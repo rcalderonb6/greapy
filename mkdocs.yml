@@ -6,6 +6,9 @@ repo_url: https://github.com/rcalderonb6/greapy
 
 copyright: "Copyright &copy; 2025 Rodrigo Calderón"
 
+extra_css:
+  - stylesheets/notebook.css
+
 theme:
     palette:
         - scheme: slate
@@ -55,8 +58,20 @@ plugins:
           ignore_h1_titles: True
           execute: True
           allow_errors: false
-          ignore: ["conf.py"]
-          execute_ignore: ["*ignore.ipynb"]
+          ignore: ["_playground.py","test.py","conf.py"]
+          execute_ignore: ["Sampling with Cobaya.ipynb","*ignore.ipynb"]
+          remove_tag_config:
+              remove_input_tags:
+                  - hide-input
+                  - imports
+              remove_all_outputs_tags:
+                  - hide-output
+              remove_cell_tags:
+                  - hide-cell
+          # Alternative: Hide all input cells by default
+          # show_input: False
+          # Alternative: Custom CSS classes for hiding
+          # kernel_name: python3
 
 markdown_extensions:
     - admonition
