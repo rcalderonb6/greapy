@@ -163,7 +163,7 @@ def main():
         "--skip",
         type=float,
         default=0.3,
-        help="Fraction of the chain to ignore as burnin.",
+        help="Fraction of the chain to ignore as burn in.",
     )
 
     args = parser.parse_args()
