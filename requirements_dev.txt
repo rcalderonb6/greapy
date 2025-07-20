@@ -29,3 +29,5 @@ twine
 watchdog
 wheel
 scienceplots
+astropy
+cobaya
