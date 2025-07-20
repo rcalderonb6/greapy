@@ -5,7 +5,7 @@ bump-my-version
 click
 codespell
 flake8
-
+matplotlib
 ipykernel
 livereload
 mkdocs

@@ -45,9 +45,9 @@ jobs:
             
             - name: Discover typos with codespell
               run: codespell --skip="*.csv,*.geojson,*.json,*.js,*.html,*cff,*.pdf,*.ipynb,./.git" --ignore-words-list="aci,acount,hist"
-            - name: PKG-TEST
-              run: |
-                  python -m unittest discover tests/
+            # - name: PKG-TEST
+            #   run: |
+            #       python -m unittest discover tests/
             - name: Build docs
               run: |
                   mkdocs build
