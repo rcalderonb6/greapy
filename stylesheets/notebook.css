@@ -1,3 +1,38 @@
+/* Math rendering for notebooks */
+.arithmatex {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.arithmatex .MathJax {
+    padding: 0.25em 0;
+}
+
+/* Ensure math is properly displayed in notebooks */
+.jp-RenderedHTMLCommon .arithmatex {
+    margin: 0.5em 0;
+}
+
+/* Fix for inline math in notebooks */
+.highlight .arithmatex {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Notebook math display */
+mjx-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+}
+
+/* Dark mode math */
+[data-md-color-scheme="slate"] mjx-container {
+    color: #fff;
+}
+
 /* Hide import cells in notebooks */
 .jp-InputArea .jp-InputPrompt + .jp-CodeMirrorEditor .CodeMirror-line:first-child:contains("import") {
     display: none;

@@ -69,14 +69,24 @@
 <script>
   window.MathJax = {
     tex: {
-      inlineMath: [["\\(", "\\)"]],
-      displayMath: [["\\[", "\\]"]],
+      inlineMath: [["\\(", "\\)"], ["$", "$"]],
+      displayMath: [["\\[", "\\]"], ["$$", "$$"]],
       processEscapes: true,
-      processEnvironments: true
+      processEnvironments: true,
+      packages: ['base', 'ams', 'noerrors', 'noundefined', 'colorv2']
     },
     options: {
       ignoreHtmlClass: ".*|",
-      processHtmlClass: "arithmatex"
+      processHtmlClass: "arithmatex|math"
+    },
+    svg: {
+      fontCache: 'global'
+    },
+    startup: {
+      ready: function() {
+        MathJax.startup.defaultReady();
+        console.log("MathJax initialized for notebooks");
+      }
     }
   };
 </script>
