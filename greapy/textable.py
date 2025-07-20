@@ -17,9 +17,6 @@ def make_table(chains, skip=0.3, params=None, ci="sigma", transpose=False, outpu
         except Exception as e:
             print(f"Could not load chains for prefix '{prefix}': {e}")
 
-    # Number of datasets
-    nd = len(samples)
-
     # Determine which confidence limits to use
     if ci == "sigma":
         use_sigma = True
