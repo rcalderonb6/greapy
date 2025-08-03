@@ -184,7 +184,7 @@ def run_mcmc(
             f"Unknown method {method}. Supported methods are 'MCMC' and 'Nested Sampling'."
         )
     if likelihoods is not None:
-        info["likelihood"] = {l: None for l in likelihoods.split(",")}
+        info["likelihood"] = {likelihood: None for likelihood in likelihoods.split(",")}
 
     if priors is not None:
         info.update(priors)

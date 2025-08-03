@@ -79,19 +79,19 @@ plugins:
           # kernel_name: python3
 
 markdown_extensions:
-    - admonition
+    - admonition    
+    - pymdownx.superfences
+    - pymdownx.details
     - abbr
     - attr_list
     - def_list
     - footnotes
     - meta
     - md_in_html
-    - pymdownx.superfences
     - pymdownx.highlight:
           linenums: true
     - pymdownx.arithmatex:
           generic: true
-    - pymdownx.details
     - pymdownx.smartsymbols
     - toc:
           permalink: true
