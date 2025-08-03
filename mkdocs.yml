@@ -59,6 +59,7 @@ plugins:
           type: timeago
     # - pdf-export
     - mkdocs-jupyter:
+          enable_md_extensions: true
           include_source: True
           ignore_h1_titles: True
           execute: True
