@@ -12,7 +12,7 @@ extra_css:
 extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
-  - javascripts/notebook-math.js
+#   - javascripts/notebook-math.js
 
 theme:
     palette:
@@ -89,12 +89,13 @@ markdown_extensions:
     - meta
     - md_in_html
     - pymdownx.highlight:
-          linenums: true
+        inline_syntax: ['$', '$']
+        linenums: true
     - pymdownx.arithmatex:
-          generic: true
+        generic: true
     - pymdownx.smartsymbols
     - toc:
-          permalink: true
+        permalink: true
 
 # extra:
 #     analytics:
