@@ -89,9 +89,9 @@ markdown_extensions:
     - meta
     - md_in_html
     - pymdownx.highlight:
-        inline_syntax: ['$', '$']
         linenums: true
     - pymdownx.arithmatex:
+        inline_syntax: ['$', '$']
         generic: true
     - pymdownx.smartsymbols
     - toc:
