@@ -1,0 +1,4 @@
+
+# Cobaya module
+
+::: greapy.cobaya

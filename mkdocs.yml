@@ -113,7 +113,7 @@ nav:
         - examples/Sampling with Cobaya.ipynb
     - API Reference:
           - GREA module: grea.md
-        #   - common module: common.md
+          - Cobaya module: cobaya.md
     - Report Issues: https://github.com/rcalderonb6/greapy/issues
     # - Contributing: contributing.md
     # - FAQ: faq.md

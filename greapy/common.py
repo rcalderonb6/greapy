@@ -7,6 +7,48 @@ import numpy as np
 C_KMS: float = 299792.458  # Speed of light in km/s
 
 
+def is_monotonic_increasing(a, strict=False):
+    """
+    Check if an array is monotonically increasing.
+
+    This function uses NumPy's built-in functionality to check monotonicity.
+    For NumPy 2.0.0+, it uses numpy.ismonotonic; for older versions,
+    it uses a combination of numpy.diff and numpy.all.
+
+    Parameters
+    ----------
+    a : array_like
+        Input array to check.
+    strict : bool, optional
+        If True, check for strictly monotonically increasing (each element
+        must be greater than the previous). If False (default), check for
+        monotonically increasing (each element must be greater than or equal
+        to the previous).
+
+    Returns
+    -------
+    bool
+        True if the array is monotonically increasing, False otherwise.
+    """
+    a = np.asarray(a)
+
+    if a.size <= 1:
+        return True
+
+    # Check if numpy.ismonotonic is available (NumPy 2.0.0+)
+    if hasattr(np, "ismonotonic"):
+        if strict:
+            return np.ismonotonic(a, increasing=True, strict=True)
+        else:
+            return np.ismonotonic(a, increasing=True, strict=False)
+    else:
+        # Fall back to older method for compatibility
+        if strict:
+            return np.all(np.diff(a) > 0)
+        else:
+            return np.all(np.diff(a) >= 0)
+
+
 def get_Rm1(samples: dict):
     return [
         print(f"The R-1 for {lbl} is {chain.getGelmanRubin():.3f}")
@@ -203,59 +245,6 @@ def get_F_AP(z, cosmo):
 
 def get_Mb_from_H0(H0, Mb_fid=-19.253, H0_fid=73.04):
     return Mb_fid + 5 * np.log10(H0 / H0_fid)
-
-
-def is_monotonic_increasing(a, strict=False):
-    """
-    Check if an array is monotonically increasing.
-
-    This function uses NumPy's built-in functionality to check monotonicity.
-    For NumPy 2.0.0+, it uses numpy.ismonotonic; for older versions,
-    it uses a combination of numpy.diff and numpy.all.
-
-    Parameters
-    ----------
-    a : array_like
-        Input array to check.
-    strict : bool, optional
-        If True, check for strictly monotonically increasing (each element
-        must be greater than the previous). If False (default), check for
-        monotonically increasing (each element must be greater than or equal
-        to the previous).
-
-    Returns
-    -------
-    bool
-        True if the array is monotonically increasing, False otherwise.
-
-    Examples
-    --------
-    >>> is_monotonic_increasing([1, 2, 3, 4])
-    True
-    >>> is_monotonic_increasing([1, 2, 2, 3])
-    True
-    >>> is_monotonic_increasing([1, 2, 2, 3], strict=True)
-    False
-    >>> is_monotonic_increasing([1, 3, 2, 4])
-    False
-    """
-    a = np.asarray(a)
-
-    if a.size <= 1:
-        return True
-
-    # Check if numpy.ismonotonic is available (NumPy 2.0.0+)
-    if hasattr(np, "ismonotonic"):
-        if strict:
-            return np.ismonotonic(a, increasing=True, strict=True)
-        else:
-            return np.ismonotonic(a, increasing=True, strict=False)
-    else:
-        # Fall back to older method for compatibility
-        if strict:
-            return np.all(np.diff(a) > 0)
-        else:
-            return np.all(np.diff(a) >= 0)
 
 
 # def get_bestfit(file):
