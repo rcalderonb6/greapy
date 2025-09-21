@@ -29,12 +29,12 @@ def solve_growth(a, Omega_m, sigma8, h, hprime):
     y0 = [aini, 1]
     sols = odeint(ODE, y0, a, atol=abserr, rtol=relerr, h0=10 ** (-10))
 
-    indx = np.argmin(np.abs(a - 1))
+    index = np.argmin(np.abs(a - 1))
 
     d, f, fs8 = (
         sols[:, 0],
         a / sols[:, 0] * sols[:, 1],
-        sigma8 * a / (sols[:, 0][indx]) * sols[:, 1],
+        sigma8 * a / (sols[:, 0][index]) * sols[:, 1],
     )
     if not is_increasing:
         return (d[::-1], f[::-1], fs8[::-1])
