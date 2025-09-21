@@ -32,12 +32,12 @@ jobs:
 
       - name: 🛠️ Export notebooks
         run: |
-          uvx marimo export html-wasm --sandbox --mode run --no-show-code docs/test.py -o _site
+          uvx marimo export html-wasm --sandbox --mode run --no-show-code docs/test.py -o _nb
 
       - name: 📤 Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: _nb
 
   deploy:
     needs: build
