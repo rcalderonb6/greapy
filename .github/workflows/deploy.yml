@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to Notebook to GitHub Pages
 
 on:
   push:
@@ -34,10 +34,10 @@ jobs:
         run: |
           uvx marimo export html-wasm --sandbox --mode run --no-show-code docs/test.py -o _nb
 
-      - name: 📤 Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _nb
+    #   - name: 📤 Upload artifact
+    #     uses: actions/upload-pages-artifact@v3
+    #     with:
+    #       path: _nb
 
 #   deploy:
 #     needs: build
