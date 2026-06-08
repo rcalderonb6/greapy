@@ -10,7 +10,7 @@
 
 **A python-based implementation of the General Relativistic Entropic Acceleration (GREA) theory**
 
-**G**eneral **R**elativistic **E**ntropic **A**cceleration is a theoretical framework that offers an alternative explaination for the observed accelerated expansion of the universe through entropic forces, without invoking a cosmological constant or dark energy. `GREApy` provides the core GREA background cosmology, growth factor computation, a Cobaya theory wrapper for Bayesian parameter estimation, and post-processing utilities for MCMC chains.
+**G**eneral **R**elativistic **E**ntropic **A**cceleration is a theoretical framework that offers an alternative explanation for the observed accelerated expansion of the universe through entropic forces, without invoking a cosmological constant or dark energy. `GREApy` provides the core GREA background cosmology, growth factor computation, a Cobaya theory wrapper for Bayesian parameter estimation, and post-processing utilities for MCMC chains.
 
 -   Free software: MIT License
 -   Documentation: https://rcalderonb6.github.io/greapy
