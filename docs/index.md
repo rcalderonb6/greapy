@@ -4,10 +4,11 @@
 
 [![image](https://img.shields.io/pypi/v/greapy.svg)](https://pypi.python.org/pypi/greapy)
 [![](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/rcalderonb6/greapy/blob/main/LICENSE) 
-[![image](https://img.shields.io/conda/vn/conda-forge/greapy.svg)](https://anaconda.org/conda-forge/greapy)
-[![](https://img.shields.io/badge/arXiv-250X.0XXXX%20-red.svg)](https://arxiv.org/abs/250X.0XXXX)
+![Python 3.12](https://img.shields.io/badge/python-3.12-green.svg)
+[![](https://img.shields.io/badge/arXiv-2509.21491%20-red.svg)](https://arxiv.org/abs/2509.21491)
+[![image](https://github.com/rcalderonb6/greapy/workflows/docs/badge.svg)](https://github.com/rcalderonb6/greapy/actions?query=workflow%3Adocs)
 
-**A simple python-based implementation of the General Relativistic Entropic Acceleration (GREA) theory**
+**A python-based implementation of the General Relativistic Entropic Acceleration (GREA) theory**
 
 
 -   Free software: MIT License

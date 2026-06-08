@@ -1,5 +1,5 @@
 site_name: GREApy
-site_description: A simple python-based implementation of the General Relativistic Entropic Acceleration (GREA) theory
+site_description: A python-based implementation of the General Relativistic Entropic Acceleration (GREA) theory
 site_author: rcalderonb6
 site_url: https://rcalderonb6.github.io/greapy
 repo_url: https://github.com/rcalderonb6/greapy
@@ -10,22 +10,22 @@ extra_css:
   - stylesheets/notebook.css
 
 extra_javascript:
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - javascripts/goatcounter.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - javascripts/notebook-math.js
 
 theme:
     palette:
         - scheme: slate
-          primary: indigo
-          accent: indigo
+          primary: deep orange
+          accent: orange
           toggle:
               icon: material/toggle-switch
               name: Switch to light mode
             #   name: Switch to dark mode
         - scheme: default
-            # primary: blue
-            # accent: indigo
+          primary: deep orange
+          accent: orange
           toggle:
               icon: material/toggle-switch-off-outline
             #   name: Switch to light mode
