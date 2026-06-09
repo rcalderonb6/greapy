@@ -113,7 +113,8 @@ def make_table(chains, skip=0.3, params=None, ci="sigma", transpose=False, outpu
             f.write(latex_code + "\n")
     else:
         print(latex_code)
-    return print("Table generated successfully!")
+    print("Table generated successfully!")
+    return latex_code
 
 
 def main():

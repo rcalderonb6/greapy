@@ -65,7 +65,6 @@ def gamma(a, f, cosmo: GREA):
     ValueError
         If Omega_m(a) is not positive, f is not positive, or Omega_m(a) is less than 1e-5 (to avoid numerical issues).
     """
-    """Returns the growth rate gamma"""
     Omz = cosmo.Omega_m / a**3 / (cosmo.Hubble(a) / cosmo.H0) ** 2
 
     if np.any(Omz <= 0):

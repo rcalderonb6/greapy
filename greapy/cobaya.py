@@ -185,15 +185,9 @@ class GREA(Theory):
         with observables and derived parameters needed by likelihoods.
         """
         # Set the values of the Hubble constant, matter densities, etc
-        self.cosmo.h = self.provider.get_param("h")
-        self.cosmo.omega_cdm = self.provider.get_param("omega_cdm")
-        self.cosmo.omega_b = self.provider.get_param("omega_b")
-        self.cosmo.kappa = self.provider.get_param("kappa")
-        self.cosmo.Neff = self.provider.get_param("Neff")
-
-        self.cosmo._require_update = (
-            True  # Force recomputation of tau and derived parameters
-        )
+        for param in self.get_requirements():
+            setattr(self.cosmo, param, self.provider.get_param(param))
+        self.cosmo._require_update = True
 
         # rdrag = self.rs(self.zdrag)
         ra_rec = self.cosmo.angular_diameter_distance(self.cosmo.z_rec)
@@ -227,6 +221,10 @@ class GREA(Theory):
         state["derived"]["ombh2"] = self.cosmo.omega_b
         state["derived"]["omegam"] = self.cosmo.Omega_m
         state["derived"]["omch2"] = self.cosmo.omega_cdm
+
+        # Keep a local reference for direct calls to get_Hubble/get_rdrag in tests
+        # and non-Cobaya contexts where the framework cache is not driving state.
+        self._current_state = state
 
     def get_angular_diameter_distance(self, z):
         """

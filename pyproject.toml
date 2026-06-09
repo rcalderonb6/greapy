@@ -67,6 +67,11 @@ search = '__version__ = "{current_version}"'
 replace = '__version__ = "{new_version}"'
 
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short"
+
+
 [tool.flake8]
 exclude = [
     "docs",

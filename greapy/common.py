@@ -49,11 +49,11 @@ def is_monotonic_increasing(a, strict=False):
             return np.all(np.diff(a) >= 0)
 
 
-def get_Rm1(samples: dict):
-    return [
-        print(f"The R-1 for {lbl} is {chain.getGelmanRubin():.3f}")
-        for lbl, chain in samples.items()
-    ]
+def get_Rm1(samples: dict) -> dict:
+    results = {lbl: chain.getGelmanRubin() for lbl, chain in samples.items()}
+    for lbl, value in results.items():
+        print(f"The R-1 for {lbl} is {value:.3f}")
+    return results
 
 
 def extract_chi2(dataset, path):
@@ -125,12 +125,8 @@ def get_bestfit(dataset, path, parameters=None):
                     f"Could not convert '{value_str}' to float for parameter '{param}'"
                 )
         if parameters:
-            bestfit = (
-                {param: bestfit_dict[param] for param in parameters}
-                if parameters
-                else bestfit_dict
-            )
-        return bestfit
+            return {param: bestfit_dict[param] for param in parameters}
+        return bestfit_dict
 
     except FileNotFoundError:
         raise FileNotFoundError(f"File not found: {file_path}")
@@ -168,11 +164,7 @@ def extract_lnZ(file, path):
         raise ValueError("Could not find logZ value in the file")
 
     except FileNotFoundError:
-        # raise FileNotFoundError(f"File not found: {filepath}")
-        print(
-            f"File not found: {filepath}, returning 0 instead",
-        )
-        return 0
+        raise FileNotFoundError(f"File not found: {filepath}")
     except (ValueError, IndexError) as e:
         raise ValueError(f"Could not parse logZ value from file: {e}")
 

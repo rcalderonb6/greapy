@@ -174,15 +174,21 @@ class GREA:
         """
         return self._tau(a)
 
-    def _tau(self, a):
+    def _build_tau_spline(self):
+        y0 = [self.a[0] / np.sqrt(self.Omega_g + self.Omega_nu)]
+        theta = (self.Omega_bc, self.kappa, self.aeq)
+        self.tau_spline = UnivariateSpline(
+            self.a, odeint(self._system, y0, self.a, args=theta), s=0
+        )
+        self._require_update = False
+
+    def _get_tau_spline(self):
         if self.tau_spline is None or self._require_update:
-            y0 = [self.a[0] / np.sqrt(self.Omega_g + self.Omega_nu)]
-            theta = (self.Omega_bc, self.kappa, self.aeq)
-            self.tau_spline = UnivariateSpline(
-                self.a, odeint(self._system, y0, self.a, args=theta), s=0
-            )
-            self._require_update = False
-        return self.tau_spline(a)
+            self._build_tau_spline()
+        return self.tau_spline
+
+    def _tau(self, a):
+        return self._get_tau_spline()(a)
 
     def Hubble(self, a, units="km/s/Mpc"):
         r"""
@@ -460,10 +466,11 @@ class GREA:
         This differs from the constant w=-1 of a cosmological constant and allows
         for a dynamical dark energy component.
         """
+        spline = self._get_tau_spline()
         w = (
             1
             / 3
-            * (-1 - 2 * a * coth(2 * self.tau(a)) * self.tau_spline.derivative()(a))
+            * (-1 - 2 * a * _coth(2 * self.tau(a)) * spline.derivative()(a))
         )
         return w
 
@@ -586,11 +593,12 @@ class GREA:
         -----
         Calculated from the first and second derivatives of tau at a=1.
         """
+        spline = self._get_tau_spline()
         tau = self.tau(1)
-        taup = self.tau_spline.derivative()(1)
-        taupp = self.tau_spline.derivative(n=2)(1)
+        taup = spline.derivative()(1)
+        taupp = spline.derivative(n=2)(1)
         factor = -4 * taup**2 + np.sinh(4 * tau) * (taup + taupp)
-        return 1 / 3 * csch(2 * tau) ** 2 * factor
+        return 1 / 3 * _csch(2 * tau) ** 2 * factor
 
     @property
     def z_rec(self) -> float:
@@ -665,35 +673,9 @@ class GREA:
         return self.H(0)
 
 
-def coth(x):
-    """
-    Hyperbolic cotangent function.
-
-    Parameters
-    ----------
-    x : float or array_like
-        Input value(s)
-
-    Returns
-    -------
-    float or array_like
-        Hyperbolic cotangent of x
-    """
+def _coth(x):
     return np.cosh(x) / np.sinh(x)
 
 
-def csch(x):
-    """
-    Hyperbolic cosecant function.
-
-    Parameters
-    ----------
-    x : float or array_like
-        Input value(s)
-
-    Returns
-    -------
-    float or array_like
-        Hyperbolic cosecant of x
-    """
+def _csch(x):
     return 1 / np.sinh(x)
