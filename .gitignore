@@ -109,3 +109,8 @@ ENV/
 .DS_Store
 
 input/*.yaml
+input_files/*
+input/*
+input-mcmc/*
+chains/*
+paper/
