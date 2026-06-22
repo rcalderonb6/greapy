@@ -14,26 +14,23 @@ from greapy.grea import H_units_conv_factor
 
 
 class GREA(Theory):
-    """
-    Cobaya theory wrapper for the GREA cosmological model.
+    """Cobaya theory wrapper for the GREA cosmological model.
 
-    This class provides a Cobaya-compatible interface to the GREA theory
-    implementation, enabling parameter estimation and likelihood evaluation
-    within the Cobaya framework. It handles parameter dependencies and
-    provides cosmological observables required by various likelihoods.
+    Provides a Cobaya-compatible interface to the GREA theory, enabling
+    parameter estimation and likelihood evaluation within the Cobaya
+    framework. Handles parameter dependencies and provides cosmological
+    observables required by various likelihoods.
 
-    Attributes
-    ----------
-    h : float, default=0.6736
-        Dimensionless Hubble parameter (H0/(100 km/s/Mpc)).
-    omega_cdm : float, default=0.12
-        Physical cold dark matter density (Ωc × h²).
-    omega_b : float, default=0.02237
-        Physical baryon density (Ωb × h²).
-    kappa : float, default=3.55
-        GREA curvature scale parameter (√(-k)η₀).
-    Neff : float, default=3.044
-        Effective number of neutrino species.
+    Attributes:
+        h: Dimensionless Hubble parameter $h = H_0 / (100\,\mathrm{km\,s^{-1}\,Mpc^{-1}})$.
+            Default is 0.6736.
+        omega_cdm: Physical cold dark matter density $\omega_\mathrm{cdm} = \Omega_c h^2$.
+            Default is 0.12.
+        omega_b: Physical baryon density $\omega_b = \Omega_b h^2$.
+            Default is 0.02237.
+        kappa: GREA curvature scale parameter $\kappa = \sqrt{-k}\,\eta_0$.
+            Default is 3.55.
+        Neff: Effective number of neutrino species. Default is 3.044.
     """
 
     h: float = 0.6736
@@ -43,12 +40,10 @@ class GREA(Theory):
     Neff: float = 3.044
 
     def initialize(self):
-        """
-        Initialize the GREA cosmological model.
+        """Initialize the internal GREA cosmological model.
 
-        Called from __init__ to set up the internal GREA instance with
-        the current parameter values. This creates the BaseGREA object
-        that will be used for all cosmological calculations.
+        Called by Cobaya during setup to create the `BaseGREA` instance
+        used for all subsequent cosmological calculations.
         """
         self.cosmo = BaseGREA(
             h=self.h,
@@ -59,34 +54,20 @@ class GREA(Theory):
         )
 
     def initialize_with_provider(self, provider):
-        """
-        Initialize with a provider instance after other components are set up.
+        """Store the Cobaya provider after all theory classes are initialized.
 
-        This method is called by Cobaya after other theory classes have been
-        initialized. It stores the provider instance which will be used to
-        retrieve parameter values during likelihood evaluation.
-
-        Parameters
-        ----------
-        provider : cobaya.provider.Provider
-            Cobaya provider instance used to access parameter values and
-            dependencies from other theory classes.
+        Args:
+            provider: Cobaya `Provider` instance used to retrieve parameter
+                values and dependencies from other theory classes.
         """
         self.provider = provider
 
     def get_requirements(self):
-        """
-        Return dictionary of parameters required by this theory class.
+        """Return the parameters this theory class requires from Cobaya.
 
-        This method defines which parameters the GREA theory needs to receive
-        from the parameter space or other theory classes. These parameters
-        will be automatically provided by Cobaya during likelihood evaluation.
-
-        Returns
-        -------
-        dict
-            Dictionary mapping parameter names to their requirements (None
-            indicates the parameter value itself is needed).
+        Returns:
+            Dictionary mapping parameter names to `None` (indicating the raw
+            parameter value is needed, not a derived quantity).
         """
         reqs = {
             "h": None,
@@ -98,45 +79,21 @@ class GREA(Theory):
         return reqs
 
     def get_can_provide(self):
-        """
-        Return list of observables that this theory class can compute.
+        """Return cosmological observables this theory can supply to likelihoods.
 
-        This method defines which cosmological observables the GREA theory
-        can provide to likelihood functions. These observables will be
-        available for use by various cosmological likelihoods.
-
-        Returns
-        -------
-        list of str
-            List of observable names that can be computed by this theory.
+        Returns:
+            List of observable names computable by this theory class.
         """
         return ["Hubble", "angular_diameter_distance"]
 
     def get_can_provide_params(self):
-        """
-        Return list of derived parameters that this theory class can compute.
+        """Return derived parameters this theory class can compute.
 
-        This method defines which derived cosmological parameters the GREA
-        theory can calculate and provide to the parameter space. These
-        parameters can be used in likelihood evaluation or saved as outputs.
-
-        Returns
-        -------
-        list of str
-            List of derived parameter names that can be computed.
-
-        Notes
-        -----
-        Derived parameters include:
-        - alpha : GREA alpha parameter
-        - H0 : Hubble constant today
-        - Omega_m : Matter density parameter
-        - rdrag : Sound horizon at baryon drag epoch
-        - rs_rec, ra_rec, z_rec : Recombination quantities
-        - DAstar, rstar, zstar, thetastar : CMB observables
-        - omegam, ombh2, omch2 : Density parameters
-        - w0, wa : Equation of state parameters
-        - theta_s_100 : 100 × angular scale of sound horizon
+        Returns:
+            List of derived parameter names. Includes: `alpha`, `H0`,
+            `Omega_m`, `rdrag`, `rs_rec`, `ra_rec`, `z_rec`, `DAstar`,
+            `rstar`, `zstar`, `thetastar`, `omegam`, `ombh2`, `omch2`,
+            `w0`, `wa`, `theta_s_100`.
         """
         derived_params = [
             "alpha",
@@ -161,28 +118,18 @@ class GREA(Theory):
         return derived_params
 
     def calculate(self, state, want_derived=True, **params_values_dict):
-        """
-        Perform cosmological calculations for current parameter values.
+        """Compute cosmological observables and derived parameters for Cobaya.
 
-        This is the main computation method called by Cobaya during likelihood
-        evaluation. It updates the GREA model with current parameter values,
-        computes observables and derived parameters, and stores results in
-        the state dictionary.
+        Called by Cobaya at each likelihood evaluation. Updates the internal
+        GREA model with the current parameter values, then populates `state`
+        with observables and derived parameters.
 
-        Parameters
-        ----------
-        state : dict
-            Cobaya state dictionary where results will be stored.
-        want_derived : bool, default=True
-            Whether to compute and store derived parameters.
-        **params_values_dict : dict
-            Additional parameter values (not typically used).
-
-        Notes
-        -----
-        The method updates the internal GREA model parameters, forces
-        recomputation of derived quantities, and populates the state
-        with observables and derived parameters needed by likelihoods.
+        Args:
+            state: Cobaya state dictionary where results are stored.
+            want_derived: Whether to compute and store derived parameters.
+                Default is `True`.
+            **params_values_dict: Additional parameter values passed by Cobaya
+                (not directly used; parameters are fetched via the provider).
         """
         # Set the values of the Hubble constant, matter densities, etc
         for param in self.get_requirements():
@@ -227,42 +174,27 @@ class GREA(Theory):
         self._current_state = state
 
     def get_angular_diameter_distance(self, z):
-        """
-        Compute angular diameter distance for given redshift(s).
+        """Compute angular diameter distance for given redshift(s).
 
-        Parameters
-        ----------
-        z : float or array_like
-            Redshift(s) at which to evaluate the angular diameter distance.
+        Args:
+            z: Redshift(s) at which to evaluate the angular diameter distance.
 
-        Returns
-        -------
-        numpy.ndarray
-            Angular diameter distance(s) in Mpc. Always returns at least
-            a 1D array even for scalar input.
+        Returns:
+            Angular diameter distance(s) in Mpc as a 1D array.
         """
         return np.atleast_1d(
             np.array(self.current_state["angular_diameter_distance"](z))
         )
 
     def get_Hubble(self, z, units="km/s/Mpc"):
-        """
-        Compute Hubble parameter for given redshift(s).
+        """Compute the Hubble parameter $H(z)$ for given redshift(s).
 
-        Parameters
-        ----------
-        z : float or array_like
-            Redshift(s) at which to evaluate the Hubble parameter.
-        units : str, default="km/s/Mpc"
-            Units for the returned Hubble parameter. Supported units:
-            - "km/s/Mpc" : kilometers per second per megaparsec
-            - "1/Mpc" : inverse megaparsecs
+        Args:
+            z: Redshift(s) at which to evaluate $H$.
+            units: Output units — `"km/s/Mpc"` (default) or `"1/Mpc"`.
 
-        Returns
-        -------
-        numpy.ndarray
-            Hubble parameter(s) in the specified units. Always returns
-            at least a 1D array even for scalar input.
+        Returns:
+            Hubble parameter(s) in the specified units as a 1D array.
         """
         a = 1.0 / (1.0 + z)
         return np.atleast_1d(
@@ -270,13 +202,10 @@ class GREA(Theory):
         )
 
     def get_rdrag(self):
-        """
-        Get the sound horizon at the baryon drag epoch.
+        """Get the sound horizon at the baryon drag epoch.
 
-        Returns
-        -------
-        float
-            Sound horizon at baryon drag epoch in Mpc.
+        Returns:
+            $r_\mathrm{drag}$ in Mpc.
         """
         return self.current_state["rdrag"]
 
@@ -294,76 +223,50 @@ def run_mcmc(
     force=False,
     theory_kwargs=None,
 ):
-    """
-    Run Markov Chain Monte Carlo or Nested Sampling using Cobaya.
+    """Run Markov Chain Monte Carlo or Nested Sampling via Cobaya.
 
-    This function provides a convenient interface for running Bayesian
-    parameter estimation with various cosmological models using the
-    Cobaya framework. It supports both MCMC and nested sampling methods.
+    Args:
+        likelihoods: Comma-separated string of Cobaya likelihood names.
+            If `None`, no likelihoods are included (useful for prior sampling
+            or testing).
+        model: Cosmological model identifier. Supported values:
 
-    Parameters
-    ----------
-    likelihoods : str or None, default=None
-        Comma-separated string of likelihood names to use in the analysis.
-        If None, no likelihoods are included (useful for testing).
-    model : str or None, default=None
-        Cosmological model to use. Supported options:
-        - None or "lcdm" : Standard ΛCDM model using CLASS
-        - "greapy" or "grea" : GREA model using this package
-        - "w0wacdm", "cpl", "w0wa" : w0-wa CDM model using CLASS
-    priors : str or dict, default="baseline"
-        Prior specification. Can be a string identifier or a dictionary
-        containing the full prior configuration.
-    method : str, default="MCMC"
-        Sampling method to use. Supported options:
-        - "MCMC", "mh", "metropolis-hastings", "mcmc-mh" : MCMC sampling
-        - "nested sampling", "nested-sampling", "ns", "pc", "polychord" : Nested sampling
-    output : str or None, default=None
-        Output directory path for chains and results. If None, results
-        are not saved to disk.
-    resume : bool, default=True
-        Whether to resume from existing chains if found.
-    debug : bool, default=False
-        Enable debug mode for detailed output.
-    test : bool, default=False
-        Run in test mode (faster, less accurate).
-    Rminus1 : float, default=0.1
-        Convergence criterion for MCMC (R-1 statistic). Sampling stops
-        when all parameters have R-1 < Rminus1.
-    force : bool, default=False
-        Force overwrite of existing output directory.
-    theory_kwargs : dict or None, default=None
-        Additional keyword arguments to pass to the theory class.
+            - `None` or `"lcdm"` — standard $\Lambda$CDM via CLASS.
+            - `"greapy"` or `"grea"` — GREA model using this package.
+            - `"w0wacdm"`, `"cpl"`, `"w0wa"` — $w_0 w_a$ CDM via CLASS.
+        priors: Prior specification as a string identifier or a fully
+            expanded Cobaya-style dictionary.
+        method: Sampling method. Supported values:
 
-    Returns
-    -------
-    dict
-        Dictionary containing the results with keys:
-        - "updated_info" : Updated Cobaya configuration dictionary
-        - "sampler_info" : Information about the sampling process
+            - `"MCMC"`, `"mh"`, `"metropolis-hastings"`, `"mcmc-mh"` — MCMC.
+            - `"nested sampling"`, `"nested-sampling"`, `"ns"`, `"pc"`,
+              `"polychord"` — nested sampling via PolyChord.
+        output: Output directory for chains and results. If `None`, results
+            are not written to disk.
+        resume: Resume from existing chains if found. Default is `True`.
+        debug: Enable Cobaya debug output. Default is `False`.
+        test: Run in fast test mode (fewer samples). Default is `False`.
+        Rminus1: Gelman-Rubin convergence threshold for MCMC. Sampling
+            stops when $R-1 <$ `Rminus1` for all parameters. Default is 0.1.
+        force: Overwrite existing output directory. Default is `False`.
+        theory_kwargs: Extra keyword arguments forwarded to the theory class.
 
-    Raises
-    ------
-    ValueError
-        If an unsupported sampling method is specified.
+    Returns:
+        Dictionary with keys:
 
-    Examples
-    --------
-    >>> # Run MCMC with GREA model and BAO likelihood
-    >>> results = run_mcmc(
-    ...     likelihoods="bao.desi_2024_bao_all",
-    ...     model="grea",
-    ...     method="MCMC",
-    ...     output="chains/grea_bao"
-    ... )
+        - `"updated_info"` — updated Cobaya configuration dictionary.
+        - `"sampler_info"` — sampler result object.
 
-    >>> # Run nested sampling with ΛCDM
-    >>> results = run_mcmc(
-    ...     likelihoods="bao.desi_2024_bao_all,sn.pantheon_plus",
-    ...     model="lcdm",
-    ...     method="nested sampling",
-    ...     output="chains/lcdm_combined"
-    ... )
+    Raises:
+        ValueError: If an unsupported `method` string is provided.
+
+    Example:
+        >>> results = run_mcmc(
+        ...     likelihoods="bao.desi_2024_bao_all",
+        ...     model="grea",
+        ...     method="MCMC",
+        ...     output="chains/grea_bao",
+        ... )
     """
     from cobaya.run import run
 

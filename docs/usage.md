@@ -138,4 +138,4 @@ z = np.logspace(-2, 1, 100)
 ax = plot_distances(z, cosmo)
 ```
 
-For more detailed examples, see the [tutorial notebooks](examples/).
+For more detailed examples, see the [tutorial notebooks](examples/First Steps.ipynb).

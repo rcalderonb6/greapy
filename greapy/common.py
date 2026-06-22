@@ -1,62 +1,25 @@
-"""The common module contains common functions and classes used by the other modules."""
+"""Common functions and utilities shared across greapy modules."""
 
 import os
 import numpy as np
+from greapy.stats import gaussian_tension, gaussian_tension_from_chain, get_Rm1  # noqa: F401
+from greapy.utils import is_monotonic_increasing  # noqa: F401
 
 # Physical constants
 C_KMS: float = 299792.458  # Speed of light in km/s
 
 
-def is_monotonic_increasing(a, strict=False):
-    """
-    Check if an array is monotonically increasing.
-
-    This function uses NumPy's built-in functionality to check monotonicity.
-    For NumPy 2.0.0+, it uses numpy.ismonotonic; for older versions,
-    it uses a combination of numpy.diff and numpy.all.
-
-    Parameters
-    ----------
-    a : array_like
-        Input array to check.
-    strict : bool, optional
-        If True, check for strictly monotonically increasing (each element
-        must be greater than the previous). If False (default), check for
-        monotonically increasing (each element must be greater than or equal
-        to the previous).
-
-    Returns
-    -------
-    bool
-        True if the array is monotonically increasing, False otherwise.
-    """
-    a = np.asarray(a)
-
-    if a.size <= 1:
-        return True
-
-    # Check if numpy.ismonotonic is available (NumPy 2.0.0+)
-    if hasattr(np, "ismonotonic"):
-        if strict:
-            return np.ismonotonic(a, increasing=True, strict=True)
-        else:
-            return np.ismonotonic(a, increasing=True, strict=False)
-    else:
-        # Fall back to older method for compatibility
-        if strict:
-            return np.all(np.diff(a) > 0)
-        else:
-            return np.all(np.diff(a) >= 0)
-
-
-def get_Rm1(samples: dict) -> dict:
-    results = {lbl: chain.getGelmanRubin() for lbl, chain in samples.items()}
-    for lbl, value in results.items():
-        print(f"The R-1 for {lbl} is {value:.3f}")
-    return results
-
-
 def extract_chi2(dataset, path):
+    """Extract the best-fit $\chi^2$ value from a Cobaya `.minimum.txt` file.
+
+    Args:
+        dataset: Dataset name used to construct the filename
+            (`<dataset>.minimum.txt`).
+        path: Directory containing the `.minimum.txt` file.
+
+    Returns:
+        Best-fit $\chi^2$ value from the first data row.
+    """
     file_path = os.path.join(path, f"{dataset}.minimum.txt")
     chi2_values = []
 
@@ -73,19 +36,21 @@ def extract_chi2(dataset, path):
 
 
 def get_bestfit(dataset, path, parameters=None):
-    """
-    Extract best-fit parameter values from a .minimum.txt file.
+    """Extract best-fit parameter values from a Cobaya `.minimum.txt` file.
 
     Args:
-        dataset (str): The dataset name (used to construct filename)
-        path (str): The path to the directory containing the .minimum.txt file
+        dataset: Dataset name used to construct the filename
+            (`<dataset>.minimum.txt`).
+        path: Directory containing the `.minimum.txt` file.
+        parameters: Optional list of parameter names to extract. If `None`,
+            all parameters are returned.
 
     Returns:
-        dict: Dictionary with parameter names as keys and best-fit values as values
+        Dictionary mapping parameter names to their best-fit float values.
 
     Raises:
-        FileNotFoundError: If the file doesn't exist
-        ValueError: If the file format is invalid
+        FileNotFoundError: If the `.minimum.txt` file does not exist.
+        ValueError: If the file format is invalid or a value cannot be parsed.
     """
     file_path = os.path.join(path, f"{dataset}.minimum.txt")
 
@@ -135,18 +100,19 @@ def get_bestfit(dataset, path, parameters=None):
 
 
 def extract_lnZ(file, path):
-    """
-    Extract the main logZ value from a .logZ file.
+    """Extract the log-evidence $\ln Z$ from a PolyChord `.logZ` file.
 
     Args:
-        filepath (str): Path to the .logZ file
+        file: Base filename (without extension) used to construct
+            `<file>.logZ`.
+        path: Directory containing the `.logZ` file.
 
     Returns:
-        float: The logZ value from the second line
+        The $\ln Z$ value parsed from the file.
 
     Raises:
-        FileNotFoundError: If the file doesn't exist
-        ValueError: If the logZ value cannot be parsed
+        FileNotFoundError: If the `.logZ` file does not exist.
+        ValueError: If the `logZ` value cannot be found or parsed.
     """
     filepath = os.path.join(path, file + ".logZ")
     try:
@@ -170,8 +136,25 @@ def extract_lnZ(file, path):
 
 
 def get_samples_w_fde(z, chain, samples_fn, param_names, Nsamples=500):
-    """
-    Load previously computed samples of w(z) and fde(z) or compute them from the chains.
+    """Load or compute posterior samples of $w(z)$ and $f_\mathrm{de}(z)$.
+
+    If a previously computed `.npz` file exists at `samples_fn`, it is loaded
+    directly. Otherwise, samples are drawn from the MCMC chain and computed
+    on-the-fly, then saved for future use.
+
+    Args:
+        z: Redshift array at which to evaluate $w(z)$ and $f_\mathrm{de}(z)$.
+        chain: GetDist `MCSamples` object containing the posterior chain.
+        samples_fn: Path to the `.npz` cache file (read if it exists, written
+            if it does not).
+        param_names: List of parameter names to extract from the chain, in the
+            order expected by the `GREA` constructor.
+        Nsamples: Number of posterior samples to draw when computing from
+            scratch. Default is 500.
+
+    Returns:
+        Dictionary with keys `"w"`, `"fde"` (arrays of shape
+        `(Nsamples, len(z))`), `"weights"`, and `"idxs"`.
     """
     from tqdm import tqdm
     from greapy import GREA
@@ -210,6 +193,18 @@ def get_samples_w_fde(z, chain, samples_fn, param_names, Nsamples=500):
 
 
 def get_dV_rs(z, cosmo, rd=147.09):
+    """Compute the BAO volume-averaged distance ratio $D_V(z)/r_s$.
+
+    Args:
+        z: Redshift at which to evaluate the distance.
+        cosmo: Cosmology object — either a `GREA` instance or an Astropy
+            cosmology with `.H(z)` and `.comoving_distance(z)` methods.
+        rd: Sound horizon scale in Mpc. Default is 147.09 Mpc.
+
+    Returns:
+        Dimensionless ratio $D_V(z) / r_d$, where
+        $D_V = (z \, D_H \, D_M^2)^{1/3}$ and $D_H = c/H(z)$.
+    """
     from greapy import GREA
 
     H = cosmo.H if isinstance(cosmo, GREA) else lambda z: cosmo.H(z).value
@@ -224,6 +219,16 @@ def get_dV_rs(z, cosmo, rd=147.09):
 
 
 def get_F_AP(z, cosmo):
+    """Compute the Alcock-Paczynski parameter $F_\mathrm{AP}(z)$.
+
+    Args:
+        z: Redshift at which to evaluate the AP parameter.
+        cosmo: Cosmology object — either a `GREA` instance or an Astropy
+            cosmology with `.H(z)` and `.comoving_distance(z)` methods.
+
+    Returns:
+        Dimensionless AP parameter $F_\mathrm{AP} = D_M(z) H(z) / c$.
+    """
     from greapy import GREA
 
     H = cosmo.H if isinstance(cosmo, GREA) else lambda z: cosmo.H(z).value
@@ -236,10 +241,18 @@ def get_F_AP(z, cosmo):
 
 
 def get_Mb_from_H0(H0, Mb_fid=-19.253, H0_fid=73.04):
+    """Convert a Hubble constant value to a Type Ia SN absolute magnitude $M_b$.
+
+    Uses the standard distance-ladder relation between $H_0$ and $M_b$:
+
+    $$M_b = M_b^\mathrm{fid} + 5 \log_{10}(H_0 / H_0^\mathrm{fid})$$
+
+    Args:
+        H0: Hubble constant in km/s/Mpc.
+        Mb_fid: Fiducial absolute magnitude. Default is -19.253 (Riess et al. 2022).
+        H0_fid: Fiducial Hubble constant in km/s/Mpc. Default is 73.04.
+
+    Returns:
+        Absolute magnitude $M_b$ corresponding to `H0`.
+    """
     return Mb_fid + 5 * np.log10(H0 / H0_fid)
-
-
-# def get_bestfit(file):
-#     column_names = pl.read_csv(file, has_header=True).columns[0].split()[1:]
-#     point = np.loadtxt(file)
-#     return pl.DataFrame({col: val for col, val in zip(column_names, point)})

@@ -11,8 +11,8 @@ extra_css:
 
 extra_javascript:
   - javascripts/goatcounter.js
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - javascripts/notebook-math.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 theme:
     palette:
@@ -65,7 +65,7 @@ plugins:
           execute: True
           allow_errors: false
           ignore: ["_playground.py","test.py","conf.py"]
-          execute_ignore: ["Sampling with Cobaya.ipynb","*ignore.ipynb"]
+          execute_ignore: ["Sampling with Cobaya.ipynb", "H0_Gaussian_Tension.ipynb", "*ignore.ipynb"]
           remove_tag_config:
               remove_input_tags:
                   - hide-input
@@ -92,7 +92,6 @@ markdown_extensions:
     - pymdownx.highlight:
         linenums: true
     - pymdownx.arithmatex:
-        inline_syntax: ['$', '$']
         generic: true
     - pymdownx.smartsymbols
     - toc:
@@ -111,9 +110,11 @@ nav:
     - Tutorials:
         - examples/First Steps.ipynb
         - examples/Sampling with Cobaya.ipynb
+        - examples/H0_Gaussian_Tension.ipynb
     - API Reference:
-          - GREA module: grea.md
-          - Cobaya module: cobaya.md
+          - GREA Module: grea.md
+          - Cobaya Module: cobaya.md
+          - Stats Module: stats.md
     - Report Issues: https://github.com/rcalderonb6/greapy/issues
     # - Contributing: contributing.md
     # - FAQ: faq.md

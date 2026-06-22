@@ -1,44 +1,32 @@
 def zCMB(omega_m: float, omega_b: float) -> float:
-    """
-    Calculates a numerical approximation for the CMB (Cosmic Microwave Background) decoupling redshift.
+    """Compute a numerical approximation for the CMB decoupling redshift.
 
-    Parameters:
-        omega_m (float): The (physical) matter density  (Ω_m * h^2).
-        omega_b (float): The (physical) baryon density (Ω_b * h^2).
+    Args:
+        omega_m: Physical matter density parameter $\omega_m = \Omega_m h^2$.
+        omega_b: Physical baryon density parameter $\omega_b = \Omega_b h^2$.
 
     Returns:
-        float: The estimated redshift at which CMB decoupling occurred.
+        Estimated redshift at which CMB photon decoupling occurred.
 
-    Notes:
-        This is an empirical formula and may not be accurate for all cosmological parameter ranges.
+    Note:
+        This is an empirical fitting formula and may not be accurate for all
+        cosmological parameter ranges.
     """
-    '''
-    Numerical approximation for the CMB decoupling redshift.
-    '''
-    return (omega_m)**(-0.731631) + omega_b**0.93681*(omega_m)**0.0192951 * (937.422/omega_b**0.97966 + 391.672/(omega_m)**0.372296)    
+    return (omega_m)**(-0.731631) + omega_b**0.93681*(omega_m)**0.0192951 * (937.422/omega_b**0.97966 + 391.672/(omega_m)**0.372296)
+
 
 def zdrag(omega_m: float, omega_b: float) -> float:
-    """
-    Calculates the drag redshift (z_d) using a numerical (machine learning) fit.
+    """Compute the baryon drag redshift $z_d$ using a machine-learning fit.
 
-    This function implements Eq. (A2) from the paper:
-    https://arxiv.org/pdf/2106.00428.pdf
+    Implements Eq. (A2) from [arXiv:2106.00428](https://arxiv.org/abs/2106.00428).
 
-    Parameters
-    ----------
-    omega_m : float
-        The physical matter density parameter (Ω_m*h^2).
-    omega_b : float
-        The physical baryon density parameter (Ω_b*h^2).
+    Args:
+        omega_m: Physical matter density parameter $\omega_m = \Omega_m h^2$.
+        omega_b: Physical baryon density parameter $\omega_b = \Omega_b h^2$.
 
-    Returns
-    -------
-    float
-        The drag redshift z_d, a characteristic redshift relevant for baryon acoustic oscillations.
-
-    References
-    ----------
-    - ArXiv: 2106.00428, Eq. (A2)
+    Returns:
+        Drag redshift $z_d$, the redshift at which baryons decouple from
+        Compton drag, relevant for baryon acoustic oscillation analyses.
     """
     num = 1 + 428.169 * omega_b**(0.256459) * omega_m**(0.616388) + 925.56*omega_m**(0.751615)
     den = omega_m**(0.714129)

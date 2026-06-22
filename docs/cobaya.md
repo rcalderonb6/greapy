@@ -1,4 +1,4 @@
 
-# Cobaya module
+# Cobaya Module
 
 ::: greapy.cobaya

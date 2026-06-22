@@ -1,9 +1,34 @@
+"""Growth factor and structure formation utilities for the GREA model."""
+
 import numpy as np
 from scipy.integrate import odeint
 from greapy.grea import GREA
 
 
 def solve_growth(a, Omega_m, sigma8, h, hprime):
+    """Solve the linear growth ODE and return $D$, $f$, and $f\sigma_8$.
+
+    Integrates the second-order ODE for the linear density contrast $D(a)$
+    in a given background cosmology specified by the Hubble function $h(a)$
+    and its derivative $h'(a)$.
+
+    Args:
+        a: Array of scale factors at which to evaluate the solution. Need
+            not be monotonically increasing — the array is reversed internally
+            if necessary.
+        Omega_m: Present-day matter density parameter $\Omega_m$.
+        sigma8: Amplitude of matter fluctuations $\sigma_8$ used to normalize
+            $f\sigma_8$.
+        h: Callable $h(a) = H(a) / (100\,\mathrm{km\,s^{-1}\,Mpc^{-1}})$.
+        hprime: Callable returning $dh/da$.
+
+    Returns:
+        Tuple `(D, f, fs8)` where:
+
+        - `D` — linear growth factor array, shape `(len(a),)`.
+        - `f` — growth rate $f = d\ln D / d\ln a$, shape `(len(a),)`.
+        - `fs8` — $f\sigma_8$ product, shape `(len(a),)`.
+    """
     from greapy.common import is_monotonic_increasing
 
     def ODE(vec, a):
@@ -43,27 +68,25 @@ def solve_growth(a, Omega_m, sigma8, h, hprime):
 
 
 def gamma(a, f, cosmo: GREA):
-    """
-    Calculates the growth index gamma as the ratio of the logarithm of the growth rate f to the logarithm of the matter density parameter Omega_m(a).
+    r"""Compute the growth index $\gamma$ from the growth rate $f$ and $\Omega_m(a)$.
 
-    Parameters
-    ----------
-    a : float or array-like
-        Scale factor(s) at which to evaluate gamma.
-    f : float or array-like
-        Growth rate(s), defined as f = d(ln(D))/d(ln(a)), where D is the linear density contrast.
-    cosmo : GREA
-        Cosmology object providing Omega_m, Hubble(a), and H0 attributes.
+    The growth index is defined implicitly by $f \approx \Omega_m(a)^\gamma$,
+    so:
 
-    Returns
-    -------
-    gamma : float or ndarray
-        The growth index gamma evaluated at the given scale factor(s).
+    $$\gamma(a) = \frac{\ln f}{\ln \Omega_m(a)}$$
 
-    Raises
-    ------
-    ValueError
-        If Omega_m(a) is not positive, f is not positive, or Omega_m(a) is less than 1e-5 (to avoid numerical issues).
+    Args:
+        a: Scale factor(s) at which to evaluate $\gamma$.
+        f: Growth rate(s) $f = d\ln D / d\ln a$.
+        cosmo: `GREA` cosmology object providing `Omega_m`, `Hubble`, and
+            `H0` attributes.
+
+    Returns:
+        Growth index $\gamma$ evaluated at the given scale factor(s).
+
+    Raises:
+        ValueError: If $\Omega_m(a) \leq 0$, $f \leq 0$, or
+            $\Omega_m(a) < 10^{-5}$ (to avoid numerical instabilities).
     """
     Omz = cosmo.Omega_m / a**3 / (cosmo.Hubble(a) / cosmo.H0) ** 2
 
@@ -76,13 +99,25 @@ def gamma(a, f, cosmo: GREA):
             "Omega_m must be greater than 1e-5 for all z to avoid numerical issues"
         )
 
-    # Calculate gamma as the ratio of the logarithm of f to the logarithm of Omega_m
-    # where f is the growth rate f= D' / D = d(ln(D))/d(ln(a)) and Omz = Omega_m(a)
     return np.log(f) / np.log(Omz)
 
 
 def analytical_D(a, Omega_m: float, normalize=False):
-    """Returns the density contrast evolution as a function of a in a LCDM background"""
+    r"""Compute the linear growth factor $D(a)$ analytically in a flat $\Lambda$CDM background.
+
+    Uses the hypergeometric function solution:
+
+    $$D(a) \propto a \,{}_2F_1\!\left(1, \tfrac{1}{3}; \tfrac{11}{6};\,
+    \frac{\Omega_m - 1}{\Omega_m} a^3\right)$$
+
+    Args:
+        a: Scale factor(s) at which to evaluate $D$.
+        Omega_m: Present-day matter density parameter.
+        normalize: If `True`, normalize so that $D(a=1) = 1$.
+
+    Returns:
+        Linear growth factor $D(a)$, optionally normalized to unity today.
+    """
     from scipy.special import hyp2f1
 
     x = (Omega_m - 1) / Omega_m
@@ -91,6 +126,15 @@ def analytical_D(a, Omega_m: float, normalize=False):
 
 
 def analytical_Dprime(a, Omega_m: float):
+    """Compute $dD/da$ analytically in a flat $\Lambda$CDM background.
+
+    Args:
+        a: Scale factor(s) at which to evaluate $D'$.
+        Omega_m: Present-day matter density parameter.
+
+    Returns:
+        Derivative of the growth factor $D'(a) = dD/da$.
+    """
     from scipy.special import hyp2f1
 
     Dprime = (
@@ -109,11 +153,32 @@ def analytical_Dprime(a, Omega_m: float):
 
 
 def analytical_fsigma8(a, Omega_m, sigma8):
+    """Compute $f\sigma_8(a)$ analytically in a flat $\Lambda$CDM background.
+
+    Args:
+        a: Scale factor(s) at which to evaluate $f\sigma_8$.
+        Omega_m: Present-day matter density parameter.
+        sigma8: Amplitude of matter fluctuations $\sigma_8$.
+
+    Returns:
+        $f\sigma_8(a) = \sigma_8 D'(a)$ where $D'$ is the normalized growth
+        factor derivative.
+    """
     Dprime = analytical_Dprime(a, Omega_m)
     return sigma8 * Dprime
 
 
 def analytical_gamma(a, Omega_m):
+    """Compute the growth index $\\gamma(a)$ analytically in a flat $\Lambda$CDM background.
+
+    Args:
+        a: Scale factor(s) at which to evaluate $\\gamma$.
+        Omega_m: Present-day matter density parameter.
+
+    Returns:
+        Growth index $\\gamma(a) = \ln(f) / \ln(\Omega_m(a))$ where
+        $\Omega_m(a) = \Omega_m / [\Omega_m + (1-\Omega_m)a^3]$.
+    """
     f = analytical_Dprime(a, Omega_m) / analytical_D(a, Omega_m, normalize=True)
     Om = Omega_m / (Omega_m + (1 - Omega_m) * a**3)
     return np.log(f) / np.log(Om)

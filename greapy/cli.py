@@ -1,8 +1,12 @@
-"""Console script for greapy."""
+"""Command-line interface for greapy."""
 
 import typer
 
-app = typer.Typer()
+app = typer.Typer(
+    name="GREApy",
+    no_args_is_help=True,
+    help="GREApy: A python implementation of the General Relativisitic Entropic Acceleration theory",
+)
 
 
 @app.command()
@@ -38,7 +42,7 @@ def sample(
         help="Compute the MAP (Maximum A Posteriori) estimate from the chains",
     ),
 ):
-    """Run the sampling process with the specified parameters."""
+    """Run Bayesian parameter estimation with the specified likelihoods and method."""
     from greapy.cobaya import run_mcmc
     from cobaya.yaml import yaml_load_file
 
@@ -60,17 +64,6 @@ def sample(
         # results = compute_map(results, output)
     print(f"Results saved to {output}")
     return results
-
-
-@app.command()
-def plot():
-    """Placeholder for plotting functionality."""
-    from greapy.plots import fig1
-    import numpy as np
-
-    fig = fig1(np.linspace(3.2, 4.2, 10))
-    fig.savefig("fig1.png")
-    pass
 
 
 @app.command()

@@ -590,6 +590,86 @@ def plot_heatmap(
     return fig
 
 
+def plot_tension_comparison(
+    datasets,
+    param="H0",
+    mu_ref=73.04,
+    sigma_ref=1.04,
+    ref_label=r"SH$_0$ES",
+    colors=None,
+    alpha=1.0,
+):
+    """
+    Grouped horizontal bar chart comparing Gaussian Tension across calibrations.
+
+    Parameters
+    ----------
+    datasets : dict
+        {calibration_label: {model_name: getdist_chain}}
+    param : str
+        Chain parameter name.
+    mu_ref, sigma_ref : float
+        Reference mean and sigma.
+    ref_label : str
+        Label for the reference in the title.
+
+    Returns
+    -------
+    fig, ax
+    """
+    from .stats import gaussian_tension
+
+    model_names = list(next(iter(datasets.values())).keys())
+    n_models = len(model_names)
+    n_ds = len(datasets)
+
+    # Compute tensions for every (calibration, model) pair
+    tensions_all = {}
+    for label, chains_dict in datasets.items():
+        tensions_all[label] = {
+            name: gaussian_tension(
+                chain.mean([param])[0], chain.std([param])[0], mu_ref, sigma_ref
+            )
+            for name, chain in chains_dict.items()
+        }
+
+    t_max = max(ts[m].tension for ts in tensions_all.values() for m in model_names)
+    x_max = t_max + 1.2
+
+    fig, ax = plt.subplots(figsize=(7, max(3, n_models * 0.9)))
+
+    # Shaded tension regions — two overlapping spans create a darker >3σ zone
+    ax.axvspan(1, x_max, color="lightgray", alpha=0.1, zorder=0)
+    ax.axvspan(2, x_max, color="lightgray", alpha=0.3, zorder=0)
+    ax.axvspan(3, x_max, color="lightgray", alpha=0.3, zorder=0)
+    ax.axvspan(4, x_max, color="lightgray", alpha=0.3, zorder=0)
+    ax.axvspan(5, x_max, color="lightgray", alpha=0.3, zorder=0)
+
+    bar_h = 0.35
+    y = np.arange(n_models)
+    palette = colors if colors else [f"C{i}" for i in range(n_ds)]
+    offsets = [-(n_ds - 1) * bar_h / 2 + i * bar_h for i in range(n_ds)]
+
+    for (label, tensions), color, offset in zip(tensions_all.items(), palette, offsets):
+        t_vals = [tensions[m].tension for m in model_names]
+        ax.barh(y + offset, t_vals, height=bar_h, label=label, color=color, alpha=alpha)
+        for yi, t in zip(y + offset, t_vals):
+            ax.text(t + 0.06, yi, f"{t:.2f}$\\sigma$", va="center", fontsize=8.5)
+
+    ax.set_yticks(y)
+    ax.set_yticklabels(model_names)
+    ax.set_xlabel(r"Gaussian Tension ($\sigma$)", fontsize=11)
+    ax.set_title(
+        rf"$H_0$ tension vs {ref_label} "
+        rf"($H_0={mu_ref}\pm {sigma_ref}$ km/s/Mpc)",
+        fontsize=10,
+    )
+    ax.set_xlim(0, x_max)
+    ax.legend(loc="lower right", frameon=True)
+    plt.tight_layout()
+    return fig, ax
+
+
 def add_fs8_data(ax):
     ax.errorbar(
         z_fs8,

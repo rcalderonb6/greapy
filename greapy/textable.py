@@ -8,6 +8,26 @@ from getdist import loadMCSamples
 
 
 def make_table(chains, skip=0.3, params=None, ci="sigma", transpose=False, output=None):
+    """Generate a JCAP-style LaTeX table of parameter constraints from MCMC chains.
+
+    Args:
+        chains: List of chain file prefixes (datasets) to load via GetDist.
+        skip: Fraction of each chain to discard as burn-in. Default is 0.3.
+        params: List of parameter names to include as table rows (or columns
+            if transposed).
+        ci: Confidence interval format. Options:
+
+            - `"sigma"` — display mean +/- sigma.
+            - `"68"` — display 68% credible interval.
+            - `"95"` — display 95% credible interval.
+        transpose: If `True`, datasets are rows and parameters are columns.
+            Default is `False`.
+        output: Path to write the `.tex` file. If `None`, the table is
+            printed to stdout.
+
+    Returns:
+        LaTeX source string for the complete table environment.
+    """
     # Load each chain into a GetDist MCSamples object
     samples = []
     for prefix in chains:
@@ -140,7 +160,7 @@ def main():
         "--ci",
         choices=["sigma", "68", "95"],
         default="sigma",
-        help="Confidence output: 'sigma' for mean\u00b1sigma, '68' or '95' for two-sided CL.",
+        help="Confidence output: 'sigma' for mean +/- sigma, '68' or '95' for two-sided CL.",
     )
     parser.add_argument(
         "-t",

@@ -1,4 +1,4 @@
 
-# GREA module
+# GREA Module
 
 ::: greapy.grea
