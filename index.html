@@ -94,9 +94,9 @@
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@marimo-team/islands@0.23.9/dist/main.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@marimo-team/islands@0.23.10/dist/main.js"></script>
 <link
-    href="https://cdn.jsdelivr.net/npm/@marimo-team/islands@0.23.9/dist/style.css"
+    href="https://cdn.jsdelivr.net/npm/@marimo-team/islands@0.23.10/dist/style.css"
     rel="stylesheet"
     title="marimo-islands"
     crossorigin="anonymous"
@@ -134,7 +134,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#welcome-to-the-documentation-of-greapy" class="md-skip">
+        <a href="#citation" class="md-skip">
           Skip to content
         </a>
       
@@ -325,8 +325,24 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="." class="md-nav__link md-nav__link--active">
         
@@ -344,6 +360,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#citation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Citation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -533,6 +577,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="examples/H0_Gaussian_Tension.ipynb" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    None
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -601,7 +673,7 @@
   <span class="md-ellipsis">
     
   
-    GREA module
+    GREA Module
   
 
     
@@ -629,7 +701,35 @@
   <span class="md-ellipsis">
     
   
-    Cobaya module
+    Cobaya Module
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="stats.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stats Module
   
 
     
@@ -694,8 +794,25 @@
   
   
   
-    
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#citation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Citation
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -718,7 +835,8 @@
   
 
 
-<h1 id="welcome-to-the-documentation-of-greapy">Welcome to the documentation of <code>GREApy</code><a class="headerlink" href="#welcome-to-the-documentation-of-greapy" title="Permanent link">&para;</a></h1>
+  <h1>Home</h1>
+
 <p><img src="assets/logo.png" width="400" height="400"></p>
 <p><a href="https://pypi.python.org/pypi/greapy"><img alt="image" src="https://img.shields.io/pypi/v/greapy.svg" /></a>
 <a href="https://github.com/rcalderonb6/greapy/blob/main/LICENSE"><img alt="" src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" /></a> 
@@ -727,9 +845,59 @@
 <a href="https://github.com/rcalderonb6/greapy/actions?query=workflow%3Adocs"><img alt="image" src="https://github.com/rcalderonb6/greapy/workflows/docs/badge.svg" /></a></p>
 <p><strong>A python-based implementation of the General Relativistic Entropic Acceleration (GREA) theory</strong></p>
 <ul>
+<li>Based on: <a href="https://arxiv.org/pdf/2509.21491">Calderon et al - 2026 (DESI Collaboration)</a></li>
 <li>Free software: MIT License</li>
 <li>Documentation: <a href="https://rcalderonb6.github.io/greapy">https://rcalderonb6.github.io/greapy</a></li>
 </ul>
+<h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link">&para;</a></h2>
+<p>If you use <code>GREApy</code> in your research, please cite:</p>
+<p><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nc">@article</span><span class="p">{</span><span class="nl">Calderon:2025dhj</span><span class="p">,</span>
+<span class="w">    </span><span class="na">author</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Calderon, R. and others&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">title</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;{Constraining GREA, an alternative theory accounting for the present cosmic acceleration}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">eprint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;2509.21491&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">archivePrefix</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;arXiv&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">primaryClass</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;astro-ph.CO&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">reportNumber</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;DESI-2024-0464, IFT-UAM/CSIC-25-99, FERMILAB-PUB-25-0737-PPD&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">month</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;9&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">year</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;2025&quot;</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
+and the original GREA formulation</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nc">@article</span><span class="p">{</span><span class="nl">Garcia-Bellido:2021idr</span><span class="p">,</span>
+<span class="w">    </span><span class="na">author</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Garcia-Bellido, Juan and Espinosa-Portales, Llorenc&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">title</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;{Cosmic acceleration from first principles}&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">eprint</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;2106.16014&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">archivePrefix</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;arXiv&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">primaryClass</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;gr-qc&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">reportNumber</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;IFT-UAM/CSIC-21-75&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">doi</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;10.1016/j.dark.2021.100892&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">journal</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;Phys. Dark Univ.&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">volume</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;34&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">pages</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;100892&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="na">year</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;2021&quot;</span>
+<span class="p">}</span>
+</code></pre></div></td></tr></table></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This website is still under active development. Features and documentation are being continuously updated and expanded.</p>
@@ -756,7 +924,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="June 8, 2026 19:33:49 UTC"><span class="timeago" datetime="2026-06-08T19:33:49+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="June 8, 2026 19:33:49 UTC">2026-06-08</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="June 22, 2026 12:16:25 UTC"><span class="timeago" datetime="2026-06-22T12:16:25+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="June 22, 2026 12:16:25 UTC">2026-06-22</span>
   </span>
 
     
@@ -837,9 +1005,9 @@
       
         <script src="javascripts/goatcounter.js"></script>
       
-        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-      
         <script src="javascripts/notebook-math.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>
