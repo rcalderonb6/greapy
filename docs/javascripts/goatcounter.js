@@ -1,6 +1,6 @@
 // Load GoatCounter without auto-tracking (we handle it manually for SPA navigation)
 var gc = document.createElement('script');
-gc.setAttribute('data-goatcounter', 'https://rcalderonb6.goatcounter.com/count');
+gc.setAttribute('data-goatcounter', 'https://greapy.goatcounter.com/count');
 gc.setAttribute('data-goatcounter-settings', JSON.stringify({ no_onload: true }));
 gc.src = '//gc.zgo.at/count.js';
 

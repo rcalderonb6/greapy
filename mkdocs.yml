@@ -110,11 +110,11 @@ nav:
     - Tutorials:
         - examples/First Steps.ipynb
         - examples/Sampling with Cobaya.ipynb
-        - examples/H0_Gaussian_Tension.ipynb
+        # - examples/H0_Gaussian_Tension.ipynb
     - API Reference:
           - GREA Module: grea.md
           - Cobaya Module: cobaya.md
-          - Stats Module: stats.md
+        #   - Stats Module: stats.md
     - Report Issues: https://github.com/rcalderonb6/greapy/issues
     # - Contributing: contributing.md
     # - FAQ: faq.md
