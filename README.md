@@ -1,5 +1,9 @@
 
-<img src="docs/assets/logo.png" width="400" height="400">
+<!-- <p align="center"> -->
+<img src="https://raw.githubusercontent.com/rcalderonb6/greapy/main/docs/assets/logo.png" width="500" height="500" alt="greapy">
+<!-- </p> -->
+
+<!-- <img src="docs/assets/logo.png" width="400" height="400"> -->
 
 ![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-green.svg)
 [![image](https://img.shields.io/pypi/v/greapy.svg)](https://pypi.python.org/pypi/greapy)
@@ -7,6 +11,8 @@
 [![](https://img.shields.io/badge/arXiv-2509.21491%20-red.svg)](https://arxiv.org/abs/2509.21491)
 [![image](https://github.com/rcalderonb6/greapy/workflows/docs/badge.svg)](https://github.com/rcalderonb6/greapy/actions?query=workflow%3Adocs)
 
+![Forks](https://img.shields.io/github/forks/rcalderonb6/greapy?style=social)
+![Stars](https://img.shields.io/github/stars/rcalderonb6/greapy?style=social)
 
 **A python-based implementation of the General Relativistic Entropic Acceleration (GREA) theory**
 
@@ -53,7 +59,7 @@ See the [documentation](https://rcalderonb6.github.io/greapy) for full installat
 
 ## Citation
 
-If you use `GREApy` in your research, please cite:
+If you use `GREApy` in your research, consider citing:
 
 ```bibtex
 @article{Calderon:2025dhj,
@@ -65,5 +71,21 @@ If you use `GREApy` in your research, please cite:
     reportNumber = "DESI-2024-0464, IFT-UAM/CSIC-25-99, FERMILAB-PUB-25-0737-PPD",
     month = "9",
     year = "2025"
+}
+```
+and 
+```bibtex
+@article{Garcia-Bellido:2021idr,
+    author = "Garcia-Bellido, Juan and Espinosa-Portales, Llorenc",
+    title = "{Cosmic acceleration from first principles}",
+    eprint = "2106.16014",
+    archivePrefix = "arXiv",
+    primaryClass = "gr-qc",
+    reportNumber = "IFT-UAM/CSIC-21-75",
+    doi = "10.1016/j.dark.2021.100892",
+    journal = "Phys. Dark Univ.",
+    volume = "34",
+    pages = "100892",
+    year = "2021"
 }
 ```
